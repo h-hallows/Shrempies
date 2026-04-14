@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-teal: #085041;
+  --color-coral: #E8601C;
+  --color-sand: #FBF8F3;
+  --color-seafoam: #D6F5EA;
+  --color-navy: #061E3A;
+  --color-amber: #F5A623;
+  --color-lavender: #EEEDFE;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FBF8F3;
+  color: #061E3A;
+}
+
+/* ── Animations ─────────────────────────────────────── */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-18px) rotate(2deg); }
+  66%       { transform: translateY(-8px) rotate(-1.5deg); }
+}
+
+@keyframes bubble-rise {
+  0%   { transform: translateY(0) scale(0.5) translateX(0); opacity: 0; }
+  8%   { opacity: 0.6; }
+  50%  { transform: translateY(-50vh) scale(0.9) translateX(12px); opacity: 0.4; }
+  92%  { opacity: 0.2; }
+  100% { transform: translateY(-108vh) scale(1.1) translateX(-8px); opacity: 0; }
+}
+
+@keyframes wave-shift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 0.9; transform: scale(1.06); }
+}
+
+@keyframes shimmer-slide {
+  0%   { transform: translateX(-100%) skewX(-12deg); }
+  100% { transform: translateX(250%) skewX(-12deg); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float          { animation: float 5s ease-in-out infinite; }
+.animate-float-slow     { animation: float 7s ease-in-out infinite; }
+.animate-float-slower   { animation: float 9s ease-in-out infinite; }
+.animate-bubble         { animation: bubble-rise linear infinite; }
+.animate-wave           { animation: wave-shift 14s linear infinite; }
+.animate-glow           { animation: glow-pulse 3s ease-in-out infinite; }
+.animate-spin-slow      { animation: spin-slow 20s linear infinite; }
+
+/* ── Shimmer utility ────────────────────────────────── */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.18) 50%,
+    transparent 100%
+  );
+  animation: shimmer-slide 2.4s ease-in-out infinite;
+}
+
+/* ── Character panel clip shapes ───────────────────── */
+.clip-wave-right {
+  clip-path: polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%);
+}
+.clip-wave-left {
+  clip-path: polygon(8% 0, 100% 0, 100% 100%, 8% 100%, 0 50%);
+}
+
+/* ── Typography scale ───────────────────────────────── */
+.display-xl {
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+.display-lg {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+}
+
+/* ── Glass card ─────────────────────────────────────── */
+.glass {
+  backdrop-filter: blur(16px);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
 }
