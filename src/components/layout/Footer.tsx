@@ -7,6 +7,7 @@ const navLinks = [
   { href: "/songs",       label: "Songs" },
   { href: "/episodes",    label: "Episodes & Videos" },
   { href: "/printables",  label: "Free Printables" },
+  { href: "/parents",     label: "For Parents" },
   { href: "/about",       label: "About" },
 ];
 
@@ -53,7 +54,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Image
-              src="/shrempies-logo.jpg"
+              src="/shrempies-logo.webp"
               alt="Shrempies"
               width={160}
               height={54}

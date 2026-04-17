@@ -39,7 +39,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section
         className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #061E3A 0%, #0a3a6b 30%, #085041 70%, #0d5a48 100%)" }}
+        style={{ background: "linear-gradient(175deg, #0EA5E9 0%, #06B6D4 22%, #0D9488 52%, #065F46 80%, #047857 100%)" }}
       >
         {/* Glow orbs */}
         {[

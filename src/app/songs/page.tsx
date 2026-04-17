@@ -62,33 +62,28 @@ export default function SongsPage() {
       {/* Hero */}
       <section
         className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #061E3A 0%, #3C3489 50%, #085041 100%)" }}
+        style={{ background: "linear-gradient(175deg, #0EA5E9 0%, #06B6D4 22%, #0D9488 52%, #065F46 80%, #047857 100%)" }}
       >
-        {/* Glow orbs */}
-        {[
-          { c: "#4AABDB", x: "10%", y: "80%", size: 350 },
-          { c: "#E8601C", x: "80%", y: "20%", size: 250 },
-        ].map((orb, i) => (
-          <div key={i} className="absolute rounded-full pointer-events-none animate-glow"
-            style={{ width: orb.size, height: orb.size, left: orb.x, top: orb.y, transform: "translate(-50%,-50%)",
-              background: `radial-gradient(circle, ${orb.c}25 0%, transparent 70%)`, animationDelay: `${i * 1.2}s` }} />
-        ))}
+        {/* Ambient light */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "radial-gradient(ellipse 70% 50% at 50% -5%, rgba(186,230,253,0.50) 0%, transparent 65%)",
+        }} />
 
         <div className="relative z-10 max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] mb-5 opacity-50"
-              style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] mb-5"
+              style={{ color: "rgba(186,230,253,0.80)", fontFamily: "var(--font-body), sans-serif" }}>
               The music library
             </p>
             <h1 className="display-lg font-black mb-4"
-              style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff" }}>
+              style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff", textShadow: "0 2px 40px rgba(0,0,0,0.15)" }}>
               36 Original Songs
-              <span className="block text-base font-bold opacity-40 mt-2" style={{ fontFamily: "var(--font-body), sans-serif" }}>
+              <span className="block text-base font-bold mt-2" style={{ fontFamily: "var(--font-body), sans-serif", color: "rgba(186,230,253,0.55)" }}>
                 Volume 1 &amp; 2 — with hundreds more in development
               </span>
             </h1>
-            <p className="text-base opacity-70 max-w-xl mb-8"
-              style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}>
+            <p className="text-base max-w-xl mb-8"
+              style={{ color: "rgba(224,242,254,0.85)", fontFamily: "var(--font-body), sans-serif" }}>
               Lullabies, dance songs, emotional learning, adventure anthems — purpose-built music for babies and toddlers.
             </p>
 

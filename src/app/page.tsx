@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Hero from "@/components/sections/Hero";
 import HomeCharacters from "@/components/sections/HomeCharacters";
+import HomeFeatured from "@/components/sections/HomeFeatured";
 import HomeSongs from "@/components/sections/HomeSongs";
-import HomePrintables from "@/components/sections/HomePrintables";
 import WhyShrempies from "@/components/sections/WhyShrempies";
-import EmailSignup from "@/components/sections/EmailSignup";
+import ForParents from "@/components/sections/ForParents";
+import HomePrintables from "@/components/sections/HomePrintables";
 import InvestorTeaser from "@/components/sections/InvestorTeaser";
+import EmailSignup from "@/components/sections/EmailSignup";
 
 export const metadata: Metadata = {
   title: "Shrempies — A World of Wonder for the Newest Generation",
@@ -18,8 +20,10 @@ export default function HomePage() {
     <>
       <Hero />
       <HomeCharacters />
+      <HomeFeatured />
       <WhyShrempies />
       <HomeSongs />
+      <ForParents />
       <HomePrintables />
       <InvestorTeaser />
       <EmailSignup />

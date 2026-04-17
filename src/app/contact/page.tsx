@@ -47,10 +47,10 @@ export default function ContactPage() {
       {/* Hero */}
       <section
         className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #061E3A 0%, #085041 60%, #0d5a48 100%)" }}
+        style={{ background: "linear-gradient(175deg, #0EA5E9 0%, #06B6D4 22%, #0D9488 52%, #065F46 80%, #047857 100%)" }}
       >
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 50% 60% at 30% 0%, rgba(74,171,219,0.15) 0%, transparent 55%)" }} />
+          style={{ background: "radial-gradient(ellipse 70% 50% at 50% -5%, rgba(186,230,253,0.50) 0%, transparent 65%)" }} />
         <div className="relative z-10 max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="text-xs font-bold uppercase tracking-[0.25em] mb-5 opacity-50"

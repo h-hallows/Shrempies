@@ -11,6 +11,7 @@ const links = [
   { href: "/songs",       label: "Songs" },
   { href: "/episodes",    label: "Episodes" },
   { href: "/printables",  label: "Printables" },
+  { href: "/parents",     label: "Parents" },
   { href: "/about",       label: "About" },
 ];
 
@@ -35,15 +36,15 @@ export default function Navbar() {
         boxShadow: scrolled ? "0 2px 24px rgba(6,30,58,0.07)" : "none",
       }}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
-            src="/shrempies-logo.jpg"
+            src="/shrempies-logo.webp"
             alt="Shrempies"
             width={180}
             height={60}
-            className="h-11 w-auto"
+            className="h-14 w-auto"
             style={{ mixBlendMode: "multiply" }}
             priority
           />

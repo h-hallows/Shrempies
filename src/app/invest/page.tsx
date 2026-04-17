@@ -46,34 +46,38 @@ export default function InvestPage() {
       {/* Hero */}
       <section
         className="relative min-h-[70vh] flex items-center py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #061E3A 0%, #0a1f3a 40%, #0a3052 70%, #085041 100%)" }}
+        style={{ background: "linear-gradient(175deg, #0EA5E9 0%, #06B6D4 22%, #0D9488 52%, #065F46 80%, #047857 100%)" }}
       >
+        {/* Ambient light */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "radial-gradient(ellipse 70% 50% at 50% -5%, rgba(186,230,253,0.50) 0%, transparent 65%)",
+        }} />
         {/* Animated orbs */}
         {[
           { c: "#E8601C", x: "5%",  y: "20%", size: 500 },
-          { c: "#4AABDB", x: "85%", y: "70%", size: 400 },
+          { c: "#FDE68A", x: "85%", y: "70%", size: 400 },
           { c: "#F5A623", x: "50%", y: "110%", size: 350 },
         ].map((orb, i) => (
           <div key={i} className="absolute rounded-full pointer-events-none animate-glow"
             style={{ width: orb.size, height: orb.size, left: orb.x, top: orb.y,
               transform: "translate(-50%,-50%)",
-              background: `radial-gradient(circle, ${orb.c}20 0%, transparent 70%)`,
+              background: `radial-gradient(circle, ${orb.c}18 0%, transparent 70%)`,
               animationDelay: `${i * 1.3}s` }} />
         ))}
 
         <div className="relative z-10 max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] mb-6 opacity-50"
-              style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] mb-6"
+              style={{ color: "rgba(186,230,253,0.85)", fontFamily: "var(--font-body), sans-serif" }}>
               Pre-seed raise · Strategic partners only
             </p>
             <h1 className="display-lg font-black mb-6 leading-tight max-w-3xl"
-              style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff" }}>
+              style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff", textShadow: "0 2px 40px rgba(0,0,0,0.15)" }}>
               We're building the next generation's
-              <span style={{ color: "#F5A623" }}> first beloved brand.</span>
+              <span style={{ color: "#FDE68A", textShadow: "0 0 40px rgba(251,191,36,0.5)" }}> first beloved brand.</span>
             </h1>
-            <p className="text-xl leading-relaxed opacity-75 max-w-2xl mb-10"
-              style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}>
+            <p className="text-xl leading-relaxed max-w-2xl mb-10"
+              style={{ color: "rgba(224,242,254,0.90)", fontFamily: "var(--font-body), sans-serif" }}>
               The children's media market is worth $30B+. The next generational brand hasn't been built yet. Shrempies has the IP, the content, the mission — and the window.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -84,8 +88,10 @@ export default function InvestPage() {
                 Request the Investor Deck
               </a>
               <Link href="/about"
-                className="inline-block px-9 py-4 rounded-full font-black text-base glass transition-transform hover:scale-105"
-                style={{ color: "#fff", fontFamily: "var(--font-heading), sans-serif" }}>
+                className="inline-block px-9 py-4 rounded-full font-black text-base transition-transform hover:scale-105"
+                style={{ color: "#fff", fontFamily: "var(--font-heading), sans-serif",
+                  background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.35)",
+                  backdropFilter: "blur(12px)" }}>
                 About Shrempies →
               </Link>
             </div>
@@ -182,6 +188,65 @@ export default function InvestPage() {
                   style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
                   {s.sub}
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Now */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: "#F0F9F4" }}>
+        <div className="max-w-5xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-14">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] mb-3 opacity-50"
+              style={{ color: "#085041", fontFamily: "var(--font-body), sans-serif" }}>
+              The window
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-black"
+              style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
+              Why now is the moment.
+            </h2>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: "◈",
+                color: "#E8601C",
+                title: "Gen Beta is being born",
+                body: "The first cohort of Gen Beta — born 2025 onward — are arriving now. The IP that captures this generation will define the next decade of children's media. The window to be first is open for a very short time.",
+              },
+              {
+                icon: "✦",
+                color: "#0D9488",
+                title: "Parents want something better",
+                body: "The backlash against algorithmically-optimised, overstimulating children's content is real and growing. Parents are actively seeking alternatives. Shrempies is the alternative — emotionally honest, developmentally grounded, actually beautiful.",
+              },
+              {
+                icon: "♡",
+                color: "#F5A623",
+                title: "The IP is already built",
+                body: "Most children's media startups are pre-content. Shrempies has 36 original songs, 16 episode scripts, 13 characters, and published books. The foundation is done. This raise is about production and distribution — not development.",
+              },
+            ].map((item, i) => (
+              <motion.div key={item.title}
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.12 }}
+                whileHover={{ y: -4 }}
+                className="rounded-3xl p-9"
+                style={{ backgroundColor: "#FBF8F3", boxShadow: `0 2px 0 0 ${item.color}30, 0 8px 32px rgba(6,30,58,0.06)` }}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-5"
+                  style={{ backgroundColor: `${item.color}15`, color: item.color }}>
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-black mb-3"
+                  style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
+                  {item.title}
+                </h3>
+                <p className="text-sm leading-relaxed opacity-65"
+                  style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
+                  {item.body}
+                </p>
               </motion.div>
             ))}
           </div>

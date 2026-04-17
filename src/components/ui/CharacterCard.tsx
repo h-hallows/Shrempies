@@ -52,7 +52,7 @@ export default function CharacterCard({ name, color, species, personality, trait
           transition={{ duration: 4 + Math.random(), repeat: Infinity, ease: "easeInOut" }}
         >
           <Image
-            src={`/characters/${name.toLowerCase()}.jpg`}
+            src={`/characters/${name.toLowerCase()}.png`}
             alt={name}
             fill
             className="object-cover object-top"

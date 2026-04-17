@@ -36,7 +36,7 @@ function CharacterPanel({
       >
         <motion.div className="absolute inset-0 scale-110" style={{ y: imgY }}>
           <Image
-            src={`/characters/${char.name.toLowerCase()}.jpg`}
+            src={`/characters/${char.name.toLowerCase()}.png`}
             alt={char.name}
             fill
             className="object-cover object-center"
@@ -127,9 +127,13 @@ export default function CharactersPage() {
       {/* Hero */}
       <section
         className="relative py-24 px-4 text-center overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #061E3A 0%, #0d4a3e 60%, #085041 100%)" }}
+        style={{ background: "linear-gradient(175deg, #0EA5E9 0%, #06B6D4 22%, #0D9488 52%, #065F46 80%, #047857 100%)" }}
       >
-        {/* Floating light orbs */}
+        {/* Ambient glow */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "radial-gradient(ellipse 70% 50% at 50% -5%, rgba(186,230,253,0.50) 0%, transparent 65%)",
+        }} />
+        {/* Character color orbs */}
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
@@ -139,7 +143,7 @@ export default function CharactersPage() {
               height: `${120 + i * 60}px`,
               left: `${10 + i * 20}%`,
               top: `${20 + (i % 2) * 40}%`,
-              background: `radial-gradient(circle, ${["#E8601C","#F5C300","#4AABDB","#7B4FBF","#2E9E6B"][i]}33 0%, transparent 70%)`,
+              background: `radial-gradient(circle, ${["#E8601C","#F5C300","#06B6D4","#A78BFA","#5EEAD4"][i]}30 0%, transparent 70%)`,
               animationDelay: `${i * 0.7}s`,
             }}
           />

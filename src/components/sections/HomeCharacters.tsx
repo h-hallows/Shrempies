@@ -97,7 +97,7 @@ export default function HomeCharacters() {
                       }}
                     >
                       <Image
-                        src={`/characters/${char.name.toLowerCase()}.jpg`}
+                        src={`/characters/${char.name.toLowerCase()}.png`}
                         alt={char.name}
                         fill
                         className="object-cover object-top"
@@ -144,7 +144,7 @@ export default function HomeCharacters() {
               style={{ width: 88, height: 88 }}
             >
               <div
-                className="w-full h-full rounded-full overflow-hidden"
+                className="relative w-full h-full rounded-full overflow-hidden"
                 style={{
                   border: `2.5px solid ${char.color}55`,
                   boxShadow: `0 4px 16px ${char.color}30`,
@@ -152,7 +152,7 @@ export default function HomeCharacters() {
                 }}
               >
                 <Image
-                  src={`/characters/${char.name.toLowerCase()}.jpg`}
+                  src={`/characters/${char.name.toLowerCase()}.png`}
                   alt={char.name}
                   fill
                   className="object-cover object-top"
