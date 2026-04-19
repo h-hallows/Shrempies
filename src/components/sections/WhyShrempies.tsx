@@ -70,6 +70,27 @@ export default function WhyShrempies() {
         />
       ))}
 
+      {/* Bioluminescent micro-particles */}
+      {[
+        { x: "18%", y: "35%", delay: "0s" },
+        { x: "45%", y: "10%", delay: "1.3s" },
+        { x: "72%", y: "28%", delay: "0.7s" },
+        { x: "85%", y: "55%", delay: "2s" },
+        { x: "30%", y: "72%", delay: "1.6s" },
+        { x: "60%", y: "80%", delay: "0.4s" },
+        { x: "10%", y: "58%", delay: "2.4s" },
+      ].map((p, i) => (
+        <div
+          key={`particle-${i}`}
+          className="absolute pointer-events-none hidden lg:block animate-sparkle"
+          style={{ left: p.x, top: p.y, animationDelay: p.delay, width: 6, height: 6 }}
+        >
+          <svg viewBox="0 0 20 20" fill="rgba(94,234,212,0.7)">
+            <path d="M10 0 L11.5 8.5 L20 10 L11.5 11.5 L10 20 L8.5 11.5 L0 10 L8.5 8.5 Z" />
+          </svg>
+        </div>
+      ))}
+
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <motion.div

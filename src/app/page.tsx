@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "@/components/sections/Hero";
+import TrustStrip from "@/components/sections/TrustStrip";
 import HomeCharacters from "@/components/sections/HomeCharacters";
 import HomeFeatured from "@/components/sections/HomeFeatured";
 import HomeSongs from "@/components/sections/HomeSongs";
@@ -19,6 +20,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <TrustStrip />
       <HomeCharacters />
       <HomeFeatured />
       <WhyShrempies />

@@ -233,12 +233,11 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <Link
               href="/characters"
-              className="shimmer px-8 py-4 rounded-full font-black text-lg transition-transform hover:scale-105 active:scale-95"
+              className="shimmer cta-pulse px-8 py-4 rounded-full font-black text-lg transition-transform hover:scale-105 active:scale-95"
               style={{
                 backgroundColor: "#E8601C",
                 color: "#fff",
                 fontFamily: "var(--font-heading), sans-serif",
-                boxShadow: "0 8px 32px rgba(232,96,28,0.55), 0 0 0 1px rgba(255,255,255,0.15)",
               }}
             >
               Meet the Shrempies

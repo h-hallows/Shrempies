@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 const FEATURED_SONGS = [
   {
@@ -23,7 +24,7 @@ const FEATURED_SONGS = [
     new: false,
   },
   {
-    title: "Wriggle & Jiggle",
+    title: "Wiggle & Jiggle",
     character: "Zippy",
     characterColor: "#F5C300",
     desc: "The movement song that makes your whole body want to join in.",
@@ -117,8 +118,8 @@ export default function HomeFeatured() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.10 }}
-              whileHover={{ y: -4 }}
-              className="relative rounded-3xl overflow-hidden cursor-pointer group"
+              whileHover={{ y: -6 }}
+              className="relative rounded-3xl overflow-hidden cursor-pointer group transition-shadow duration-300"
               style={{
                 background: `linear-gradient(145deg, ${song.characterColor}18 0%, ${song.characterColor}08 100%)`,
                 border: `1.5px solid ${song.characterColor}25`,
@@ -133,15 +134,31 @@ export default function HomeFeatured() {
                 </div>
               )}
 
+              {/* Character portrait — top right */}
+              <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden rounded-bl-3xl rounded-tr-3xl opacity-20 group-hover:opacity-35 transition-opacity duration-400">
+                <Image
+                  src={`/characters/${song.character.toLowerCase()}.png`}
+                  alt={song.character}
+                  fill
+                  className="object-cover object-top"
+                  sizes="96px"
+                />
+              </div>
+
               <div className="p-8">
                 {/* Character indicator */}
-                <div className="flex items-center gap-2 mb-4">
-                  <div
-                    className="w-6 h-6 rounded-full"
-                    style={{ backgroundColor: song.characterColor }}
-                  />
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="relative w-7 h-7 rounded-full overflow-hidden shrink-0" style={{ border: `2px solid ${song.characterColor}` }}>
+                    <Image
+                      src={`/characters/${song.character.toLowerCase()}.png`}
+                      alt={song.character}
+                      fill
+                      className="object-cover object-top"
+                      sizes="28px"
+                    />
+                  </div>
                   <span
-                    className="text-xs font-bold uppercase tracking-wider opacity-60"
+                    className="text-xs font-bold uppercase tracking-wider opacity-70"
                     style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}
                   >
                     {song.character}

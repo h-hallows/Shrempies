@@ -3,6 +3,7 @@ import { Nunito, Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import OceanCursor from "@/components/ui/OceanCursor";
 
 const nunito = Nunito({
   variable: "--font-heading",
@@ -42,6 +43,7 @@ export default function RootLayout({
         className="min-h-screen flex flex-col antialiased"
         style={{ fontFamily: "var(--font-body), sans-serif" }}
       >
+        <OceanCursor />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -128,12 +128,28 @@ export default function HomeSongs() {
                   {song.category}
                 </div>
 
-                {/* Play hint */}
-                <div
-                  className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
-                  style={{ backgroundColor: color }}
-                >
-                  <span className="text-white text-xs pl-0.5">▶</span>
+                {/* Equalizer bars + play hint */}
+                <div className="shrink-0 flex items-center gap-3">
+                  {/* Animated sound bars */}
+                  <div className="hidden sm:flex items-end gap-0.5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {[1, 2, 3, 4].map((bar) => (
+                      <div
+                        key={bar}
+                        className="w-1 rounded-full"
+                        style={{
+                          backgroundColor: color,
+                          height: `${[60, 100, 45, 80][bar - 1]}%`,
+                          animation: `eq-bar-${bar} ${0.6 + bar * 0.15}s ease-in-out infinite alternate`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    style={{ backgroundColor: color }}
+                  >
+                    <span className="text-white text-xs pl-0.5">▶</span>
+                  </div>
                 </div>
               </motion.div>
             );

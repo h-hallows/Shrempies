@@ -56,7 +56,7 @@ export default function Navbar() {
             <Link
               key={l.href}
               href={l.href}
-              className="px-4 py-2 rounded-full text-sm font-bold transition-all"
+              className="px-4 py-2 rounded-full text-sm font-bold transition-all hover:bg-[#D6F5EA]/50"
               style={{
                 fontFamily: "var(--font-body), sans-serif",
                 color: pathname === l.href ? "#085041" : "#061E3A",

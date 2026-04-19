@@ -94,15 +94,16 @@ export default function ForParents() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="rounded-3xl p-8"
+              whileHover={{ y: -6 }}
+              className="group rounded-3xl p-8 transition-shadow duration-300"
               style={{
                 background: "rgba(255,255,255,0.05)",
                 border: "1px solid rgba(255,255,255,0.08)",
               }}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-5"
-                style={{ backgroundColor: `${p.color}20`, color: p.color }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-5 transition-all duration-300 group-hover:scale-110"
+                style={{ backgroundColor: `${p.color}25`, color: p.color, boxShadow: `0 0 0 0 ${p.color}00` }}
               >
                 {p.icon}
               </div>
