@@ -86,6 +86,7 @@ export default function HomeCharacters() {
                       animationDelay: `${delay}s`,
                     }}
                   >
+                    <Link href="/characters" aria-label={`Meet ${char.name}`} className="absolute inset-0 z-30 rounded-full" />
                     {/* Outer pulse ring — animates on hover */}
                     <div
                       className="absolute rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-500"
@@ -165,29 +166,35 @@ export default function HomeCharacters() {
               className="relative shrink-0 snap-start"
               style={{ width: 96 }}
             >
-              <div
-                className="relative rounded-full overflow-hidden"
-                style={{
-                  width: 88, height: 88,
-                  border: `2.5px solid ${char.color}55`,
-                  boxShadow: `0 4px 16px ${char.color}30`,
-                  backgroundColor: char.color,
-                }}
+              <Link
+                href="/characters"
+                className="block transition-transform active:scale-90"
+                aria-label={`Meet ${char.name}`}
               >
-                <Image
-                  src={`/characters/${char.name.toLowerCase()}.png`}
-                  alt={char.name}
-                  fill
-                  className="object-cover object-top"
-                  sizes="88px"
-                />
-              </div>
-              <p
-                className="mt-1.5 text-center text-xs font-bold"
-                style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}
-              >
-                {char.name}
-              </p>
+                <div
+                  className="relative rounded-full overflow-hidden mx-auto"
+                  style={{
+                    width: 88, height: 88,
+                    border: `2.5px solid ${char.color}55`,
+                    boxShadow: `0 4px 16px ${char.color}30`,
+                    backgroundColor: char.color,
+                  }}
+                >
+                  <Image
+                    src={`/characters/${char.name.toLowerCase()}.png`}
+                    alt={char.name}
+                    fill
+                    className="object-cover object-top"
+                    sizes="88px"
+                  />
+                </div>
+                <p
+                  className="mt-1.5 text-center text-xs font-bold"
+                  style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}
+                >
+                  {char.name}
+                </p>
+              </Link>
             </motion.div>
           ))}
         </div>

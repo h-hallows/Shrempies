@@ -12,6 +12,21 @@ const PEEK_CHARS = [
   { name: "rara",    color: "#A78BFA" },
 ];
 
+// Confetti burst particles — decorative only, deterministic trajectories
+const CONFETTI = Array.from({ length: 14 }, (_, i) => {
+  const angle = (i / 14) * Math.PI * 2;
+  const dist = 80 + (i % 3) * 30;
+  return {
+    color: ["#F5A623", "#E8601C", "#5EEAD4", "#06B6D4", "#FDE68A"][i % 5],
+    cx: Math.cos(angle) * 12,
+    cy: Math.sin(angle) * 12 - 10,
+    cxEnd: Math.cos(angle) * dist,
+    cyEnd: Math.sin(angle) * dist + 60,
+    size: 8 + (i % 3) * 3,
+    delay: (i % 5) * 30,
+  };
+});
+
 export default function EmailSignup() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -22,13 +37,18 @@ export default function EmailSignup() {
     if (!email) return;
     setLoading(true);
     try {
-      await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+      // Note: Replace YOUR_FORM_ID with an actual Formspree ID before going live.
+      // We optimistically show success; failures fall through to the catch below.
+      const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, type: "early-access" }),
       });
+      if (!res.ok && res.status !== 404) {
+        throw new Error("submit failed");
+      }
     } catch {
-      // fail silently for now
+      // Don't block UX — keep sign-up feeling instant. Real backend can be swapped in.
     }
     setLoading(false);
     setSubmitted(true);
@@ -132,9 +152,38 @@ export default function EmailSignup() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="py-8"
+              className="py-8 relative"
             >
-              <div className="text-5xl mb-4">🦐</div>
+              {/* Confetti burst — absolutely positioned around the emoji */}
+              <div className="absolute left-1/2 top-10 -translate-x-1/2 w-0 h-0 pointer-events-none">
+                {CONFETTI.map((p, i) => (
+                  <span
+                    key={i}
+                    className="absolute rounded-sm"
+                    style={{
+                      width: p.size,
+                      height: p.size,
+                      backgroundColor: p.color,
+                      left: "-4px",
+                      top: "-4px",
+                      animation: `confetti-burst 1.2s ${p.delay}ms cubic-bezier(0.22,1,0.36,1) forwards`,
+                      // CSS custom props consumed by the keyframe
+                      ["--cx" as string]: `${p.cx}px`,
+                      ["--cy" as string]: `${p.cy}px`,
+                      ["--cx-end" as string]: `${p.cxEnd}px`,
+                      ["--cy-end" as string]: `${p.cyEnd}px`,
+                    }}
+                  />
+                ))}
+              </div>
+              <motion.div
+                initial={{ scale: 0.5, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200, damping: 12 }}
+                className="text-5xl mb-4"
+              >
+                🦐
+              </motion.div>
               <p
                 className="text-2xl font-black mb-2"
                 style={{ fontFamily: "var(--font-heading), sans-serif", color: "#F5A623" }}
@@ -156,7 +205,8 @@ export default function EmailSignup() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="flex-1 px-5 py-4 rounded-full text-sm font-medium outline-none"
+                aria-label="Email address"
+                className="focus-ring flex-1 px-5 py-4 rounded-full text-sm font-medium outline-none transition-all"
                 style={{
                   backgroundColor: "rgba(255,255,255,0.10)",
                   color: "#FAF7F2",

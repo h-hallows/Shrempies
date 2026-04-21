@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import PlatformLinks from "@/components/ui/PlatformLinks";
+import CountUp from "@/components/ui/CountUp";
 
 interface Bubble {
   id: number;
@@ -152,7 +153,7 @@ export default function Hero() {
             >
               <Image
                 src={`/characters/${f.name}.png`}
-                alt={f.name}
+                alt=""
                 fill
                 className="object-cover object-top"
                 sizes="130px"
@@ -278,9 +279,9 @@ export default function Hero() {
           className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16"
         >
           {[
-            { value: "36", label: "Original Songs" },
-            { value: "16", label: "Episode Scripts" },
-            { value: "13", label: "Characters" },
+            { value: 36, label: "Original Songs" },
+            { value: 16, label: "Episode Scripts" },
+            { value: 13, label: "Characters" },
           ].map((s) => (
             <div key={s.label} className="text-center">
               <div
@@ -291,7 +292,7 @@ export default function Hero() {
                   textShadow: "0 0 30px rgba(251,191,36,0.7)",
                 }}
               >
-                {s.value}
+                <CountUp value={s.value} duration={1700} />
               </div>
               <div
                 className="text-sm font-semibold mt-1"

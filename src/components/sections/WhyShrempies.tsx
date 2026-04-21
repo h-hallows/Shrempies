@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import CountUp from "@/components/ui/CountUp";
 
 const props = [
   {
@@ -187,7 +188,7 @@ export default function WhyShrempies() {
                     textShadow: "0 0 30px rgba(251,191,36,0.5)",
                   }}
                 >
-                  {n.value}
+                  <CountUp value={n.value} duration={1800} />
                 </div>
                 <div className="text-sm font-bold mb-1" style={{ color: "#fff", fontFamily: "var(--font-heading), sans-serif" }}>
                   {n.label}

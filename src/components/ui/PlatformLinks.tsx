@@ -126,7 +126,7 @@ export default function PlatformLinks({ variant = "pills", className = "", dark 
           href={p.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
+          className="group flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
           style={{
             backgroundColor: dark ? `${p.color}22` : `${p.color}14`,
             color: dark ? "#fff" : p.color,
@@ -134,7 +134,10 @@ export default function PlatformLinks({ variant = "pills", className = "", dark 
             border: `1px solid ${p.color}30`,
           }}
         >
-          {p.icon}
+          {/* Icon keeps brand color even in dark-mode pills */}
+          <span style={{ color: p.color }} className="transition-transform group-hover:scale-110">
+            {p.icon}
+          </span>
           <span>{p.name}</span>
         </Link>
       ))}

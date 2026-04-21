@@ -144,12 +144,29 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Tagline — treated as brand signature, not footer fine print */}
         <div
-          className="mt-14 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs opacity-30 border-t"
-          style={{ borderColor: "rgba(214,245,234,0.12)", fontFamily: "var(--font-body), sans-serif" }}
+          className="mt-14 pt-8 text-center border-t"
+          style={{ borderColor: "rgba(214,245,234,0.10)" }}
+        >
+          <p
+            className="text-lg sm:text-xl italic opacity-80"
+            style={{
+              fontFamily: "var(--font-heading), sans-serif",
+              color: "#FDE68A",
+              textShadow: "0 0 24px rgba(251,191,36,0.25)",
+            }}
+          >
+            Where every feeling has a name.
+          </p>
+        </div>
+
+        <div
+          className="mt-8 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs opacity-40"
+          style={{ fontFamily: "var(--font-body), sans-serif" }}
         >
           <span>© {new Date().getFullYear()} Shrempies. All rights reserved.</span>
-          <span>Where every feeling has a name.</span>
+          <span>Built for Gen Beta · Zero ads, zero data collection</span>
         </div>
       </div>
     </footer>

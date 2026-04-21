@@ -134,6 +134,7 @@ export default function SongsPage() {
             <input
               type="text"
               placeholder="Search songs..."
+              aria-label="Search songs"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-8 pr-4 py-2 rounded-full text-sm border outline-none w-44 transition-all focus:w-56"

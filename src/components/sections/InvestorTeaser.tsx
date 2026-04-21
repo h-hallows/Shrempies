@@ -3,12 +3,20 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import CountUp from "@/components/ui/CountUp";
 
-const stats = [
-  { value: "$30B+", label: "Children's media market" },
-  { value: "$3B",   label: "Moonbug acquisition (2021)" },
-  { value: "Gen β", label: "The generation we're built for" },
-  { value: "0",     label: "Ads. Ever." },
+const stats: Array<{
+  num?: number;
+  prefix?: string;
+  suffix?: string;
+  static?: string;
+  label: string;
+  accent: string;
+}> = [
+  { prefix: "$", num: 30, suffix: "B+", label: "Children's media market", accent: "#F5A623" },
+  { prefix: "$", num: 3,  suffix: "B",  label: "Moonbug acquisition (2021)", accent: "#06B6D4" },
+  { static: "Gen β", label: "The generation we're built for", accent: "#7B4FBF" },
+  { num: 0, label: "Ads. Ever.", accent: "#5EEAD4" },
 ];
 
 const TEASE_CHARS = [
@@ -112,23 +120,34 @@ export default function InvestorTeaser() {
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-14 max-w-2xl mx-auto"
         >
           {stats.map((s) => (
-            <div
+            <motion.div
               key={s.label}
-              className="rounded-2xl py-6 px-4 text-center glass"
+              whileHover={{ y: -4 }}
+              className="group rounded-2xl py-6 px-4 text-center glass relative overflow-hidden transition-shadow duration-300"
+              style={{ boxShadow: "0 0 0 0 transparent" }}
             >
+              {/* Accent glow on hover */}
               <div
-                className="text-3xl font-black mb-1"
-                style={{ fontFamily: "var(--font-heading), sans-serif", color: "#F5A623" }}
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ background: `radial-gradient(ellipse 80% 60% at 50% 100%, ${s.accent}30 0%, transparent 70%)` }}
+              />
+              <div
+                className="relative text-3xl font-black mb-1"
+                style={{ fontFamily: "var(--font-heading), sans-serif", color: s.accent, textShadow: `0 0 20px ${s.accent}55` }}
               >
-                {s.value}
+                {s.static ? (
+                  s.static
+                ) : (
+                  <CountUp value={s.num ?? 0} prefix={s.prefix} suffix={s.suffix} duration={1600} />
+                )}
               </div>
               <div
-                className="text-xs opacity-60 leading-snug"
+                className="relative text-xs opacity-60 leading-snug"
                 style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}
               >
                 {s.label}
               </div>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
 

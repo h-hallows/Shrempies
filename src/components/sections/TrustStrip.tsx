@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const ITEMS = [
@@ -19,9 +20,12 @@ const ITEMS = [
 const TRACK = [...ITEMS, ...ITEMS];
 
 export default function TrustStrip() {
+  const [paused, setPaused] = useState(false);
   return (
     <div
       className="relative overflow-hidden py-3"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
       style={{
         background: "linear-gradient(90deg, #042c53 0%, #061E3A 50%, #053d2e 100%)",
         borderTop: "1px solid rgba(255,255,255,0.06)",
@@ -40,21 +44,21 @@ export default function TrustStrip() {
       />
 
       <motion.div
-        animate={{ x: ["0%", "-50%"] }}
+        animate={{ x: paused ? undefined : ["0%", "-50%"] }}
         transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
         className="flex items-center gap-0 whitespace-nowrap"
         style={{ width: "max-content" }}
       >
         {TRACK.map((item, i) => (
-          <div key={i} className="flex items-center gap-6 px-6">
-            <span className="text-base">{item.icon}</span>
+          <div key={i} className="group flex items-center gap-6 px-6 transition-opacity">
+            <span className="text-base transition-transform group-hover:scale-125">{item.icon}</span>
             <span
-              className="text-xs font-bold uppercase tracking-[0.18em]"
-              style={{ color: "rgba(214,245,234,0.65)", fontFamily: "var(--font-body), sans-serif" }}
+              className="text-xs font-bold uppercase tracking-[0.18em] transition-colors"
+              style={{ color: "rgba(225,245,238,0.82)", fontFamily: "var(--font-body), sans-serif" }}
             >
               {item.text}
             </span>
-            <span style={{ color: "rgba(94,234,212,0.25)", fontSize: 8 }}>◆</span>
+            <span style={{ color: "rgba(94,234,212,0.35)", fontSize: 8 }}>◆</span>
           </div>
         ))}
       </motion.div>
