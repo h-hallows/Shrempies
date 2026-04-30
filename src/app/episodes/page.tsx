@@ -14,6 +14,13 @@ const THEMES = [
   { id: "learning", label: "Learning" },
 ];
 
+const THEME_COLORS: Record<string, string> = {
+  feelings: "#E8601C",
+  friendship: "#F5A623",
+  bravery: "#C0192E",
+  learning: "#0D9488",
+};
+
 const EP_THEMES: Record<number, string[]> = {
   1: ["bravery", "learning"], 2: ["friendship", "feelings"],
   3: ["feelings", "learning"], 4: ["feelings"], 5: ["feelings", "learning"],
@@ -155,7 +162,7 @@ export default function EpisodesPage() {
 
         {/* Wave bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden pointer-events-none">
-          <svg viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
+          <svg aria-hidden="true" viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
             <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z" fill="#FBF8F3" />
           </svg>
         </div>
@@ -309,38 +316,65 @@ export default function EpisodesPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((ep, i) => (
+            {filtered.map((ep, i) => {
+              const primaryTheme = (EP_THEMES[ep.number] ?? [])[0];
+              const accent = THEME_COLORS[primaryTheme] ?? "#0D9488";
+              return (
               <motion.div
                 key={ep.number}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.4) }}
-                className="group rounded-2xl p-5 transition-transform hover:-translate-y-1"
-                style={{ backgroundColor: "white", boxShadow: "0 2px 0 0 rgba(8,80,65,0.12), 0 8px 32px rgba(6,30,58,0.06)" }}
+                whileHover={{ y: -6 }}
+                className="group relative rounded-2xl p-5 pl-6 overflow-hidden transition-shadow"
+                style={{
+                  backgroundColor: "white",
+                  boxShadow: `0 2px 0 0 ${accent}22, 0 8px 32px rgba(6,30,58,0.06)`,
+                }}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="text-xs font-black opacity-30"
-                    style={{ color: "#061E3A", fontFamily: "var(--font-heading), sans-serif" }}>
+                {/* Left theme accent */}
+                <span
+                  className="absolute top-0 bottom-0 left-0 w-1 transition-all group-hover:w-[6px]"
+                  style={{ backgroundColor: accent }}
+                />
+                {/* Huge faded episode numeral */}
+                <div
+                  className="absolute pointer-events-none font-black select-none transition-opacity group-hover:opacity-[0.13]"
+                  style={{
+                    right: -12,
+                    bottom: -28,
+                    fontFamily: "var(--font-heading), sans-serif",
+                    fontSize: 112,
+                    lineHeight: 1,
+                    color: accent,
+                    opacity: 0.08,
+                  }}
+                >
+                  {String(ep.number).padStart(2, "0")}
+                </div>
+                <div className="relative flex items-start justify-between mb-3">
+                  <div className="text-xs font-black"
+                    style={{ color: accent, fontFamily: "var(--font-heading), sans-serif", opacity: 0.7 }}>
                     EP {String(ep.number).padStart(2, "0")}
                   </div>
                   <div className="px-2 py-0.5 rounded-full text-xs font-bold"
-                    style={{ backgroundColor: "#F0F9F4", color: "#085041", fontFamily: "var(--font-body), sans-serif" }}>
+                    style={{ backgroundColor: `${accent}15`, color: accent, fontFamily: "var(--font-body), sans-serif" }}>
                     Script Ready
                   </div>
                 </div>
-                <h3 className="font-black text-base mb-1"
+                <h3 className="relative font-black text-base mb-1"
                   style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
                   {ep.title}
                 </h3>
-                <p className="text-xs font-bold mb-2" style={{ color: "#085041", fontFamily: "var(--font-body), sans-serif" }}>
+                <p className="relative text-xs font-bold mb-2" style={{ color: accent, fontFamily: "var(--font-body), sans-serif", opacity: 0.8 }}>
                   {ep.lesson}
                 </p>
-                <p className="text-sm opacity-55 leading-relaxed"
+                <p className="relative text-sm opacity-55 leading-relaxed"
                   style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
                   {ep.description}
                 </p>
-                <div className="mt-4 flex gap-1 flex-wrap">
+                <div className="relative mt-4 flex gap-1 flex-wrap">
                   {ep.characters.slice(0, 3).map((c) => (
                     <span
                       key={c}
@@ -358,7 +392,8 @@ export default function EpisodesPage() {
                   )}
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

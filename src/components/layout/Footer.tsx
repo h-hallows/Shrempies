@@ -23,9 +23,34 @@ export default function Footer() {
     <footer style={{ backgroundColor: "#061E3A", color: "#D6F5EA" }}>
       {/* Wave divider */}
       <div className="overflow-hidden h-14 w-full" style={{ backgroundColor: "#FBF8F3" }}>
-        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" className="w-full h-full">
+        <svg aria-hidden="true" viewBox="0 0 1440 56" preserveAspectRatio="none" className="w-full h-full">
           <path d="M0,28 C360,56 720,0 1080,28 C1260,42 1380,14 1440,28 L1440,56 L0,56 Z" fill="#061E3A" />
         </svg>
+      </div>
+
+      {/* Privacy pledge ribbon — trust signal on every page */}
+      <div
+        className="border-b"
+        style={{ borderColor: "rgba(214,245,234,0.08)", background: "linear-gradient(90deg, rgba(94,234,212,0.06) 0%, rgba(94,234,212,0.10) 50%, rgba(94,234,212,0.06) 100%)" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-xs font-bold tracking-wide">
+          {[
+            "Zero ads to children",
+            "Zero data collection",
+            "Zero behavioural tracking",
+          ].map((t) => (
+            <span
+              key={t}
+              className="inline-flex items-center gap-2"
+              style={{ color: "#5EEAD4", fontFamily: "var(--font-body), sans-serif" }}
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12.5 L10 17.5 L19 7.5" />
+              </svg>
+              <span style={{ color: "rgba(214,245,234,0.92)" }}>{t}</span>
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* Platform bar */}
@@ -59,7 +84,7 @@ export default function Footer() {
               width={160}
               height={54}
               className="h-12 w-auto mb-5"
-              style={{ mixBlendMode: "luminosity", opacity: 0.85 }}
+              style={{ filter: "brightness(0) invert(1)", opacity: 0.92 }}
             />
             <p
               className="text-sm leading-relaxed opacity-60 max-w-xs mb-6"

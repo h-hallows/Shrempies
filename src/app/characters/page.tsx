@@ -2,8 +2,98 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { characters } from "@/lib/data";
+
+const slug = (name: string) => `char-${name.toLowerCase()}`;
+
+function CharacterNavigator() {
+  const [active, setActive] = useState<string>(characters.featured[0].name);
+  const stripRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) {
+          const id = visible.target.getAttribute("data-char");
+          if (id) setActive(id);
+        }
+      },
+      { rootMargin: "-40% 0px -45% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+    characters.featured.forEach((c) => {
+      const el = document.getElementById(slug(c.name));
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
+
+  // Auto-scroll strip to keep active centered
+  useEffect(() => {
+    const strip = stripRef.current;
+    if (!strip) return;
+    const btn = strip.querySelector<HTMLElement>(`[data-navchar="${active}"]`);
+    if (btn) {
+      const offset = btn.offsetLeft - strip.clientWidth / 2 + btn.clientWidth / 2;
+      strip.scrollTo({ left: offset, behavior: "smooth" });
+    }
+  }, [active]);
+
+  return (
+    <div
+      className="sticky top-0 z-40 backdrop-blur-md border-b"
+      style={{
+        backgroundColor: "rgba(251,248,243,0.88)",
+        borderColor: "rgba(6,30,58,0.08)",
+      }}
+    >
+      <div
+        ref={stripRef}
+        className="flex gap-3 overflow-x-auto px-4 sm:px-6 lg:px-8 py-3 scrollbar-none"
+        style={{ scrollBehavior: "smooth" }}
+      >
+        {characters.featured.map((c) => {
+          const isActive = c.name === active;
+          return (
+            <button
+              key={c.name}
+              data-navchar={c.name}
+              onClick={() => {
+                const el = document.getElementById(slug(c.name));
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              aria-label={`Jump to ${c.name}`}
+              className="relative shrink-0 transition-transform hover:scale-110 active:scale-95"
+              style={{ width: 44, height: 44 }}
+            >
+              <div
+                className="relative w-full h-full rounded-full overflow-hidden transition-all"
+                style={{
+                  border: `2.5px solid ${isActive ? c.color : "transparent"}`,
+                  boxShadow: isActive ? `0 0 0 3px ${c.color}33, 0 4px 12px ${c.color}55` : "none",
+                  backgroundColor: c.color,
+                  opacity: isActive ? 1 : 0.75,
+                }}
+              >
+                <Image
+                  src={`/characters/${c.name.toLowerCase()}.png`}
+                  alt=""
+                  fill
+                  sizes="44px"
+                  className="object-cover object-top"
+                />
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function CharacterPanel({
   char,
@@ -23,11 +113,13 @@ function CharacterPanel({
   return (
     <motion.div
       ref={ref}
+      id={slug(char.name)}
+      data-char={char.name}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.7 }}
-      className="relative flex flex-col md:flex-row min-h-[90vw] md:min-h-[72vh] overflow-hidden"
+      className="relative flex flex-col md:flex-row min-h-[90vw] md:min-h-[72vh] overflow-hidden scroll-mt-20"
     >
       {/* Image side */}
       <div
@@ -115,6 +207,40 @@ function CharacterPanel({
             <span style={{ opacity: 0.7 }}>✦</span>
             {char.trait}
           </div>
+
+          {/* Cross-links */}
+          <div className="mt-7 flex flex-wrap gap-2">
+            <Link
+              href="/songs"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all hover:scale-105"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.15)",
+                color: "#fff",
+                border: "1px solid rgba(255,255,255,0.25)",
+                fontFamily: "var(--font-body), sans-serif",
+                backdropFilter: "blur(8px)",
+              }}
+            >
+              <span>♪</span>
+              <span>Hear the songs</span>
+              <span className="opacity-70">→</span>
+            </Link>
+            <Link
+              href="/episodes"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all hover:scale-105"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.15)",
+                color: "#fff",
+                border: "1px solid rgba(255,255,255,0.25)",
+                fontFamily: "var(--font-body), sans-serif",
+                backdropFilter: "blur(8px)",
+              }}
+            >
+              <span>✦</span>
+              <span>See the episodes</span>
+              <span className="opacity-70">→</span>
+            </Link>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -178,7 +304,7 @@ export default function CharactersPage() {
 
         {/* Wave bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
-          <svg viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
+          <svg aria-hidden="true" viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
             <path d="M0,32 C360,64 720,0 1080,32 C1260,48 1380,24 1440,32 L1440,64 L0,64 Z" fill="#FBF8F3" />
           </svg>
         </div>
@@ -206,6 +332,9 @@ export default function CharactersPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Sticky character navigator */}
+      <CharacterNavigator />
 
       {/* Cinematic character panels */}
       <section>

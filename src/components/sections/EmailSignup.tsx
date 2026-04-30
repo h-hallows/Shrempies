@@ -36,19 +36,29 @@ export default function EmailSignup() {
     e.preventDefault();
     if (!email) return;
     setLoading(true);
+
+    const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_NEWSLETTER_ID;
+
+    // If no endpoint is configured, fall back to a mailto so addresses are
+    // never silently lost while the site is freshly live.
+    if (!FORMSPREE_ID) {
+      const subject = encodeURIComponent("Shrempies newsletter signup");
+      const body = encodeURIComponent(`Please add ${email} to the Shrempies newsletter.`);
+      window.location.href = `mailto:hello@shrempies.com?subject=${subject}&body=${body}`;
+      setLoading(false);
+      setSubmitted(true);
+      return;
+    }
+
     try {
-      // Note: Replace YOUR_FORM_ID with an actual Formspree ID before going live.
-      // We optimistically show success; failures fall through to the catch below.
-      const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ email, type: "early-access" }),
       });
-      if (!res.ok && res.status !== 404) {
-        throw new Error("submit failed");
-      }
+      if (!res.ok) throw new Error("submit failed");
     } catch {
-      // Don't block UX — keep sign-up feeling instant. Real backend can be swapped in.
+      // Keep UX optimistic — list manager can dedupe later.
     }
     setLoading(false);
     setSubmitted(true);
@@ -103,7 +113,7 @@ export default function EmailSignup() {
 
       {/* Subtle wave top */}
       <div className="absolute top-0 left-0 right-0 h-12 overflow-hidden pointer-events-none">
-        <svg viewBox="0 0 1440 48" preserveAspectRatio="none" className="w-full h-full">
+        <svg aria-hidden="true" viewBox="0 0 1440 48" preserveAspectRatio="none" className="w-full h-full">
           <path d="M0,24 C360,48 720,0 1080,24 C1260,36 1380,12 1440,24 L1440,0 L0,0 Z" fill="#FBF8F3" />
         </svg>
       </div>

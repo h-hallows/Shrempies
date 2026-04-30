@@ -3,22 +3,32 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import CountUp from "@/components/ui/CountUp";
 
-const assets = [
-  { label: "Original Songs", value: "36", icon: "◈", detail: "Volumes 1 & 2, with hundreds in development" },
-  { label: "Episode Scripts", value: "16", icon: "◉", detail: "Short-form stories, 7–11 min, fully written" },
-  { label: "Original Characters", value: "13", icon: "★", detail: "Named, with backstories and personality arcs" },
-  { label: "Children's Books", value: "Live", icon: "◎", detail: "Already published and in market" },
-  { label: "Music Partnerships", value: "Active", icon: "♪", detail: "Award-winning musicians on board" },
-  { label: "Community History", value: "Multi-year", icon: "♡", detail: "IP universe built over years with real community" },
+type Asset = {
+  label: string;
+  num?: number;
+  static?: string;
+  icon: string;
+  detail: string;
+};
+
+const assets: Asset[] = [
+  { label: "Original Songs",       num: 36,          icon: "◈", detail: "Volumes 1 & 2, with hundreds in development" },
+  { label: "Episode Scripts",      num: 16,          icon: "◉", detail: "Short-form stories, 7–11 min, fully written" },
+  { label: "Original Characters",  num: 13,          icon: "★", detail: "Named, with backstories and personality arcs" },
+  { label: "Children's Books",     static: "Live",   icon: "◎", detail: "Already published and in market" },
+  { label: "Music Partnerships",   static: "Active", icon: "♪", detail: "Award-winning musicians on board" },
+  { label: "Community History",    static: "Years",  icon: "♡", detail: "IP universe built over years with real community" },
 ];
 
 const comparisons = [
-  { brand: "Cocomelon", outcome: "$3B", note: "Moonbug acquisition, 2021" },
-  { brand: "Blippi", outcome: "$3B", note: "Part of same Moonbug deal" },
-  { brand: "Bluey", outcome: "$2B+", note: "BBC Studios licensing, 2024" },
-  { brand: "Shrempies", outcome: "Now", note: "Pre-seed · the next one" },
+  { brand: "Cocomelon", outcome: "$3B",  valueB: 3.0, note: "Moonbug acquisition, 2021" },
+  { brand: "Blippi",    outcome: "$3B",  valueB: 3.0, note: "Part of same Moonbug deal" },
+  { brand: "Bluey",     outcome: "$2B+", valueB: 2.2, note: "BBC Studios licensing, 2024" },
+  { brand: "Shrempies", outcome: "Now",  valueB: 3.2, note: "Pre-seed · the next one", isUs: true },
 ];
+const MAX_BAR = 3.2;
 
 export default function InvestPage() {
   const [email, setEmail] = useState("");
@@ -100,7 +110,7 @@ export default function InvestPage() {
 
         {/* Wave */}
         <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
-          <svg viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
+          <svg aria-hidden="true" viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
             <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z" fill="#FBF8F3" />
           </svg>
         </div>
@@ -123,39 +133,47 @@ export default function InvestPage() {
             </h2>
           </motion.div>
 
-          {/* Comparison rows */}
-          <div className="mb-14">
+          {/* Comparison bars */}
+          <div className="mb-14 flex flex-col gap-3">
             {comparisons.map((c, i) => {
-              const isLast = i === comparisons.length - 1;
+              const pct = Math.round((c.valueB / MAX_BAR) * 100);
               return (
                 <motion.div key={c.brand}
                   initial={{ opacity: 0, x: -16 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex items-center gap-6 py-5"
-                  style={{
-                    borderBottom: "1px solid rgba(6,30,58,0.07)",
-                    backgroundColor: isLast ? "transparent" : undefined,
-                  }}>
-                  <div className="w-2 h-2 rounded-full shrink-0"
-                    style={{ backgroundColor: isLast ? "#E8601C" : "rgba(6,30,58,0.2)" }} />
-                  <div className="flex-1">
-                    <span className="font-black text-lg"
-                      style={{ fontFamily: "var(--font-heading), sans-serif",
-                        color: isLast ? "#E8601C" : "#061E3A" }}>
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                  className="relative"
+                >
+                  <div className="flex items-center justify-between mb-1.5 relative z-10">
+                    <span className="font-black text-base sm:text-lg"
+                      style={{ fontFamily: "var(--font-heading), sans-serif", color: c.isUs ? "#E8601C" : "#061E3A" }}>
                       {c.brand}
+                      <span className="ml-3 text-xs font-semibold opacity-50"
+                        style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
+                        {c.note}
+                      </span>
                     </span>
-                    <span className="text-sm opacity-50 ml-3"
-                      style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
-                      {c.note}
+                    <span className="font-black text-lg sm:text-xl tabular-nums"
+                      style={{ fontFamily: "var(--font-heading), sans-serif", color: c.isUs ? "#E8601C" : "#061E3A", opacity: c.isUs ? 1 : 0.85 }}>
+                      {c.outcome}
                     </span>
                   </div>
-                  <div className={`font-black text-2xl`}
-                    style={{ fontFamily: "var(--font-heading), sans-serif",
-                      color: isLast ? "#E8601C" : "#061E3A",
-                      opacity: isLast ? 1 : 0.3 }}>
-                    {c.outcome}
+                  {/* Bar track */}
+                  <div className="relative h-3 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(6,30,58,0.06)" }}>
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${pct}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.1, delay: 0.2 + i * 0.1, ease: "easeOut" }}
+                      className={`relative h-full rounded-full ${c.isUs ? "shimmer" : ""}`}
+                      style={{
+                        background: c.isUs
+                          ? "linear-gradient(90deg, #E8601C 0%, #F5A623 50%, #FDE68A 100%)"
+                          : "linear-gradient(90deg, #085041 0%, #0D9488 100%)",
+                        boxShadow: c.isUs ? "0 0 20px rgba(232,96,28,0.5)" : undefined,
+                      }}
+                    />
                   </div>
                 </motion.div>
               );
@@ -277,16 +295,31 @@ export default function InvestPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="rounded-2xl p-6 flex flex-col gap-3"
+                whileHover={{ y: -4 }}
+                className="group relative rounded-2xl p-6 flex flex-col gap-3 overflow-hidden transition-shadow duration-300"
                 style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(214,245,234,0.1)" }}>
-                <div className="text-2xl" style={{ color: "#F5A623" }}>{a.icon}</div>
-                <div className="text-3xl font-black" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#F5A623" }}>
-                  {a.value}
+                {/* Hover accent glow */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  style={{ background: "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(245,166,35,0.18) 0%, transparent 70%)" }}
+                />
+                <div className="relative text-2xl" style={{ color: "#F5A623" }}>{a.icon}</div>
+                <div className="relative text-3xl font-black" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#F5A623", textShadow: "0 0 24px rgba(245,166,35,0.35)" }}>
+                  {a.static ? a.static : <CountUp value={a.num ?? 0} duration={1600} />}
                 </div>
-                <div className="font-bold text-sm" style={{ color: "#fff", fontFamily: "var(--font-body), sans-serif" }}>
+                {/* Gold underline that draws in */}
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 32 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.5 + i * 0.08 }}
+                  className="relative h-0.5 rounded-full"
+                  style={{ background: "linear-gradient(90deg, #F5A623, transparent)" }}
+                />
+                <div className="relative font-bold text-sm" style={{ color: "#fff", fontFamily: "var(--font-body), sans-serif" }}>
                   {a.label}
                 </div>
-                <div className="text-xs opacity-50" style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}>
+                <div className="relative text-xs opacity-60" style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}>
                   {a.detail}
                 </div>
               </motion.div>
@@ -385,6 +418,12 @@ export default function InvestPage() {
                       {loading ? "Sending..." : "Request the Deck →"}
                     </button>
                   </form>
+                  <p
+                    className="mt-5 text-[11px] leading-relaxed opacity-40 text-center"
+                    style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}
+                  >
+                    Reviewed personally within 48 hours · NDA available on request
+                  </p>
                 </div>
               )}
             </motion.div>

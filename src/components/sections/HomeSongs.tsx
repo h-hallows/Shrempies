@@ -25,7 +25,7 @@ export default function HomeSongs() {
     >
       {/* Subtle top wave */}
       <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ transform: "scaleY(-1)" }}>
-        <svg viewBox="0 0 1440 40" preserveAspectRatio="none" className="w-full" style={{ height: 40 }}>
+        <svg aria-hidden="true" viewBox="0 0 1440 40" preserveAspectRatio="none" className="w-full" style={{ height: 40 }}>
           <path d="M0,20 C360,40 720,0 1080,20 C1260,30 1380,10 1440,20 L1440,40 L0,40 Z" fill="#F0F9F4" opacity="0.6" />
         </svg>
       </div>

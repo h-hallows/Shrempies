@@ -13,7 +13,7 @@ const AGE_STAGES = [
     icon: "◎",
     what: "Gentle lullabies that calm the nervous system. Soft melodies and warm vocals for sensory comfort during feeds, naps, and settling.",
     why: "At this stage, repetition and rhythm are everything. Simple melodic patterns become familiar anchors — giving your baby something predictable in a huge new world.",
-    songs: ["The Hush Song", "Float Away", "Little Lights"],
+    songs: ["Floating with the Tide", "The Shrempy Hum", "Little Lights Go Dim"],
   },
   {
     range: "6 – 12 months",
@@ -23,7 +23,7 @@ const AGE_STAGES = [
     icon: "✦",
     what: "Movement songs that invite wiggling, clapping, and kicking. Call-and-response patterns that develop listening and anticipation.",
     why: "Babies begin to connect cause and effect. Songs with predictable 'what comes next' moments give them the thrill of being right — a crucial developmental win.",
-    songs: ["Wriggle & Jiggle", "Clap Clap Clap", "The Bubble Dance"],
+    songs: ["Wiggle Like a Shrempy", "The Bubble Bounce", "Swim Swim Swim"],
   },
   {
     range: "12 – 18 months",
@@ -33,7 +33,7 @@ const AGE_STAGES = [
     icon: "♡",
     what: "Simple character songs that introduce names, personalities, and feelings. Stories about recognisable emotions like frustration, excitement, and missing someone.",
     why: "Language is exploding. Songs with clear, repeated vocabulary — especially feeling words — dramatically expand emotional literacy during the most rapid developmental window.",
-    songs: ["Meet Pip", "The Grumpy Feeling", "Coral's Song"],
+    songs: ["This Is Shrempy", "Even Shrempies Get the Grumps", "Happy Feels Like Bubbles"],
   },
   {
     range: "18 – 36 months",
@@ -43,7 +43,7 @@ const AGE_STAGES = [
     icon: "◈",
     what: "Full narrative episodes and character arcs. Songs about big feelings, social situations, and the joy of just being. Imaginative worlds to enter and explore.",
     why: "Toddlers are building theory of mind — starting to understand that others have different feelings. Character-driven stories with emotional honesty directly support this leap.",
-    songs: ["I Don't Know Why", "Friends in the Reef", "The Adventure Song"],
+    songs: ["I Don't Know and That's Okay", "Two Shrempies", "Across the Coral Reef"],
   },
 ];
 
@@ -161,7 +161,7 @@ export default function ParentsPage() {
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden pointer-events-none">
-          <svg viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
+          <svg aria-hidden="true" viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
             <path d="M0,32 C360,64 720,0 1080,32 C1260,48 1380,24 1440,32 L1440,64 L0,64 Z" fill="#FBF8F3" />
           </svg>
         </div>
@@ -179,24 +179,99 @@ export default function ParentsPage() {
             </h2>
           </motion.div>
 
-          {/* Stage tabs */}
-          <div className="flex flex-wrap gap-2 mb-10">
-            {AGE_STAGES.map((s, i) => (
-              <button
-                key={s.range}
-                onClick={() => setActiveStage(i)}
-                className="px-5 py-3 rounded-full text-sm font-bold transition-all"
-                style={{
-                  backgroundColor: activeStage === i ? s.color : "transparent",
-                  color: activeStage === i ? "#fff" : "#061E3A",
-                  border: `2px solid ${activeStage === i ? s.color : "rgba(6,30,58,0.12)"}`,
-                  fontFamily: "var(--font-body), sans-serif",
-                  transform: activeStage === i ? "scale(1.04)" : "scale(1)",
-                }}
-              >
-                {s.label} <span className="opacity-60 text-xs ml-1">{s.range}</span>
-              </button>
-            ))}
+          {/* Stage timeline */}
+          <div className="relative mb-12 pt-2">
+            {/* Connecting rail */}
+            <div
+              className="absolute left-0 right-0 top-[34px] h-1 rounded-full"
+              style={{
+                background: `linear-gradient(to right, ${AGE_STAGES.map(s => s.color).join(", ")})`,
+                opacity: 0.25,
+              }}
+            />
+            {/* Active progress fill */}
+            <motion.div
+              className="absolute left-0 top-[34px] h-1 rounded-full"
+              initial={false}
+              animate={{
+                width: `${(activeStage / (AGE_STAGES.length - 1)) * 100}%`,
+              }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              style={{
+                background: `linear-gradient(to right, ${AGE_STAGES.slice(0, activeStage + 1).map(s => s.color).join(", ")})`,
+                boxShadow: `0 0 12px ${AGE_STAGES[activeStage].color}66`,
+              }}
+            />
+
+            <div className="relative grid grid-cols-4 gap-2">
+              {AGE_STAGES.map((s, i) => {
+                const isActive = activeStage === i;
+                const isPast = i < activeStage;
+                return (
+                  <button
+                    key={s.range}
+                    onClick={() => setActiveStage(i)}
+                    className="group flex flex-col items-center gap-3 focus:outline-none"
+                    aria-label={`Stage ${s.label}, ${s.range}`}
+                    aria-pressed={isActive}
+                  >
+                    <div className="relative flex items-center justify-center" style={{ width: 72, height: 72 }}>
+                      {/* Outer pulse ring — active only */}
+                      {isActive && (
+                        <span
+                          className="absolute rounded-full animate-ping-slow"
+                          style={{
+                            inset: 6,
+                            border: `2px solid ${s.color}`,
+                          }}
+                        />
+                      )}
+                      <motion.div
+                        initial={false}
+                        animate={{
+                          scale: isActive ? 1 : 0.52,
+                        }}
+                        transition={{ type: "spring", stiffness: 340, damping: 22 }}
+                        className="relative rounded-full flex items-center justify-center text-xl font-black"
+                        style={{
+                          width: 56,
+                          height: 56,
+                          backgroundColor: isActive || isPast ? s.color : "#FBF8F3",
+                          color: isActive || isPast ? "#fff" : s.color,
+                          border: `3px solid ${s.color}`,
+                          boxShadow: isActive ? `0 8px 24px ${s.color}55, 0 0 0 4px ${s.color}22` : "none",
+                          fontFamily: "var(--font-heading), sans-serif",
+                        }}
+                      >
+                        {s.icon}
+                      </motion.div>
+                    </div>
+                    <div className="text-center min-h-[52px]">
+                      <div
+                        className="text-sm font-black transition-colors"
+                        style={{
+                          color: isActive ? s.color : "#061E3A",
+                          fontFamily: "var(--font-heading), sans-serif",
+                          opacity: isActive ? 1 : 0.75,
+                        }}
+                      >
+                        {s.label}
+                      </div>
+                      <div
+                        className="text-[11px] font-semibold mt-0.5"
+                        style={{
+                          color: "#061E3A",
+                          fontFamily: "var(--font-body), sans-serif",
+                          opacity: isActive ? 0.7 : 0.45,
+                        }}
+                      >
+                        {s.range}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Active stage content */}
@@ -357,20 +432,55 @@ export default function ParentsPage() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { icon: "◎", label: "No ads to children" },
-                { icon: "✦", label: "No data collection" },
-                { icon: "♡", label: "No behavioural tracking" },
-              ].map((item) => (
-                <div
+                { label: "No ads to children" },
+                { label: "No data collection" },
+                { label: "No behavioural tracking" },
+              ].map((item, i) => (
+                <motion.div
                   key={item.label}
-                  className="rounded-2xl py-5 px-4 text-center"
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.12 }}
+                  className="relative rounded-2xl py-5 px-4 text-center overflow-hidden group"
                   style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
                 >
-                  <div className="text-xl mb-2" style={{ color: "#5EEAD4" }}>{item.icon}</div>
+                  {/* Pulsing ring */}
+                  <span
+                    className="absolute rounded-full animate-ping-slow pointer-events-none"
+                    style={{
+                      top: 12,
+                      left: "50%",
+                      marginLeft: -22,
+                      width: 44,
+                      height: 44,
+                      border: "1.5px solid rgba(94,234,212,0.55)",
+                      animationDelay: `${i * 0.3}s`,
+                    }}
+                  />
+                  <div
+                    className="relative mx-auto mb-3 rounded-full flex items-center justify-center"
+                    style={{
+                      width: 44,
+                      height: 44,
+                      background: "rgba(94,234,212,0.15)",
+                      border: "1.5px solid rgba(94,234,212,0.5)",
+                    }}
+                  >
+                    <motion.svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5EEAD4" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+                      <motion.path
+                        d="M5 12.5 L10 17.5 L19 7.5"
+                        initial={{ pathLength: 0 }}
+                        whileInView={{ pathLength: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7, delay: 0.3 + i * 0.12, ease: "easeOut" }}
+                      />
+                    </motion.svg>
+                  </div>
                   <div className="text-sm font-bold" style={{ color: "#fff", fontFamily: "var(--font-body), sans-serif" }}>
                     {item.label}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>

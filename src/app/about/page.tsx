@@ -73,41 +73,98 @@ export default function AboutPage() {
 
         {/* Wave bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
-          <svg viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
+          <svg aria-hidden="true" viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
             <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z" fill="#FBF8F3" />
           </svg>
         </div>
       </section>
 
-      {/* Origin story — editorial layout */}
+      {/* Origin story — timeline */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] mb-4 opacity-50"
-                style={{ color: "#085041", fontFamily: "var(--font-body), sans-serif" }}>
-                Where it began
-              </p>
-              <h2 className="text-3xl sm:text-4xl font-black mb-6 leading-tight"
-                style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
-                Built from community.<br />Built for a generation.
-              </h2>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.15 }}
-              className="space-y-5 text-base leading-relaxed"
-              style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif", opacity: 0.75 }}>
-              <p>
-                Shrempies grew out of a community that built something together over years — a world of shrimp characters that people genuinely loved. The affection was real, the characters had depth, and the universe had roots.
-              </p>
-              <p>
-                As that community evolved, it became clear the Shrempies world had potential far beyond its origins. So we started building properly. Songs with award-winning musicians. Story scripts. Characters with real emotional arcs.
-              </p>
-              <p>
-                A content library that now spans 36 original songs, 16 episode scripts, and 13 named characters — all part of the same coherent, beautiful universe. With hundreds more in development.
-              </p>
-            </motion.div>
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.6 }}
+            className="mb-14 max-w-xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] mb-4 opacity-50"
+              style={{ color: "#085041", fontFamily: "var(--font-body), sans-serif" }}>
+              Where it began
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-black mb-5 leading-tight"
+              style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
+              Built from community.<br />Built for a generation.
+            </h2>
+            <p className="text-base leading-relaxed opacity-70"
+              style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
+              Shrempies didn't start as a plan — it grew from a community that built something together over years. The affection was real. The roots are deep.
+            </p>
+          </motion.div>
+
+          <div className="relative pl-6 sm:pl-10">
+            {/* Vertical rail */}
+            <div
+              className="absolute top-2 bottom-2 w-[3px] rounded-full"
+              style={{
+                left: 10,
+                background: "linear-gradient(to bottom, #4AABDB, #0D9488, #F5A623, #E8601C)",
+                opacity: 0.35,
+              }}
+            />
+            {[
+              { year: "Years ago", color: "#4AABDB", title: "A community built a world",
+                body: "A universe of shrimp characters emerged organically from a community that genuinely loved them. People made art, stories, and inside jokes. The characters had depth before anyone called it IP." },
+              { year: "2024", color: "#0D9488", title: "Building properly began",
+                body: "Songs with award-winning musicians. Scripted episodes. Character bibles. An identity system. Shrempies moved from beloved community world to deliberately designed children's brand." },
+              { year: "2025", color: "#F5A623", title: "Library takes shape",
+                body: "36 original songs across two volumes. 16 episode scripts. 13 named characters with full emotional arcs. Printables, merchandise, parent guidance — all inside one coherent universe." },
+              { year: "2026", color: "#E8601C", title: "Meeting the AI generation",
+                body: "Shrempies launches as the first children's brand truly designed for Gen Beta — emotionally honest, developmentally grounded, and built for a world children have never faced before." },
+            ].map((stage, i) => (
+              <motion.div
+                key={stage.year}
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+                className="relative pb-12 last:pb-0"
+              >
+                {/* Dot */}
+                <div
+                  className="absolute flex items-center justify-center rounded-full"
+                  style={{
+                    left: -26,
+                    top: 2,
+                    width: 24,
+                    height: 24,
+                    backgroundColor: "#FBF8F3",
+                    border: `3px solid ${stage.color}`,
+                    boxShadow: `0 0 0 4px ${stage.color}18, 0 4px 12px ${stage.color}40`,
+                  }}
+                >
+                  <span
+                    className="block rounded-full"
+                    style={{ width: 8, height: 8, backgroundColor: stage.color }}
+                  />
+                </div>
+                <div
+                  className="inline-block text-xs font-bold uppercase tracking-[0.18em] mb-2 px-3 py-1 rounded-full"
+                  style={{
+                    color: stage.color,
+                    backgroundColor: `${stage.color}15`,
+                    fontFamily: "var(--font-body), sans-serif",
+                  }}
+                >
+                  {stage.year}
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black mb-2 leading-snug"
+                  style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
+                  {stage.title}
+                </h3>
+                <p className="text-base leading-relaxed opacity-70 max-w-2xl"
+                  style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
+                  {stage.body}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -212,23 +269,45 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px"
             style={{ backgroundColor: "rgba(8,80,65,0.08)", borderRadius: 24, overflow: "hidden" }}>
-            {credentials.map((c, i) => (
-              <motion.div key={c.label}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="p-8 flex flex-col gap-3"
-                style={{ backgroundColor: "#FBF8F3" }}>
-                <div className="text-2xl" style={{ color: "#085041" }}>{c.icon}</div>
-                <div className="font-black text-lg" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
-                  {c.label}
-                </div>
-                <div className="text-sm opacity-55" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
-                  {c.detail}
-                </div>
-              </motion.div>
-            ))}
+            {credentials.map((c, i) => {
+              const accents = ["#E8601C", "#4AABDB", "#F5A623", "#0D9488", "#7B4FBF", "#085041"];
+              const accent = accents[i % accents.length];
+              return (
+                <motion.div key={c.label}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  whileHover={{ y: -4 }}
+                  className="group relative p-8 flex flex-col gap-3 overflow-hidden transition-shadow hover:shadow-xl"
+                  style={{ backgroundColor: "#FBF8F3" }}>
+                  {/* Top accent bar draws in on hover */}
+                  <span
+                    className="absolute top-0 left-0 h-[3px] transition-all duration-500 origin-left scale-x-0 group-hover:scale-x-100"
+                    style={{ width: "100%", backgroundColor: accent }}
+                  />
+                  {/* Radial tint on hover */}
+                  <span
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{
+                      background: `radial-gradient(ellipse at top left, ${accent}14 0%, transparent 65%)`,
+                    }}
+                  />
+                  <div
+                    className="relative w-11 h-11 rounded-xl flex items-center justify-center text-xl transition-all duration-300 group-hover:scale-110"
+                    style={{ backgroundColor: `${accent}18`, color: accent }}
+                  >
+                    {c.icon}
+                  </div>
+                  <div className="relative font-black text-lg" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
+                    {c.label}
+                  </div>
+                  <div className="relative text-sm opacity-55" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
+                    {c.detail}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

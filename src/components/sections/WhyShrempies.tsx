@@ -248,7 +248,7 @@ export default function WhyShrempies() {
 
       {/* Wave bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden pointer-events-none">
-        <svg viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
+        <svg aria-hidden="true" viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
           <path d="M0,32 C360,64 720,0 1080,32 C1260,48 1380,24 1440,32 L1440,64 L0,64 Z" fill="#FBF8F3" />
         </svg>
       </div>

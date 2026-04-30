@@ -101,7 +101,7 @@ export default function SongsPage() {
 
       {/* Wave */}
       <div className="h-10 overflow-hidden" style={{ backgroundColor: "#085041" }}>
-        <svg viewBox="0 0 1440 40" preserveAspectRatio="none" className="w-full h-full">
+        <svg aria-hidden="true" viewBox="0 0 1440 40" preserveAspectRatio="none" className="w-full h-full">
           <path d="M0,20 C360,40 720,0 1080,20 C1260,30 1380,10 1440,20 L1440,40 L0,40 Z" fill="#FBF8F3" />
         </svg>
       </div>

@@ -2,8 +2,15 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import PlatformLinks from "@/components/ui/PlatformLinks";
+
+const HERO_FRIENDS = [
+  { name: "Pip",     color: "#E8601C", size: 96,  top: "18%", right: "6%",  delay: 0 },
+  { name: "Coral",   color: "#F2728C", size: 72,  top: "62%", right: "14%", delay: 1.1 },
+  { name: "Bubbles", color: "#4AABDB", size: 60,  top: "38%", right: "26%", delay: 2.2 },
+];
 
 type InquiryType = "general" | "investment" | "partnership" | "press";
 
@@ -27,19 +34,41 @@ export default function ContactPage() {
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_CONTACT_ID;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
+    setErrorMsg(null);
+
+    // If the form endpoint isn't configured, fall back to mailto so messages
+    // are never silently dropped on the live site.
+    if (!FORMSPREE_ID) {
+      const subject = encodeURIComponent(`[${inquiryType}] from ${name || "Shrempies site"}`);
+      const body = encodeURIComponent(`${message}\n\n— ${name}\n${email}`);
+      window.location.href = `mailto:hello@shrempies.com?subject=${subject}&body=${body}`;
+      setLoading(false);
+      setSubmitted(true);
+      return;
+    }
+
     try {
-      await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ email, name, message, inquiryType }),
       });
-    } catch { /* fail silently */ }
-    setLoading(false);
-    setSubmitted(true);
+      if (!res.ok) throw new Error(`Server returned ${res.status}`);
+      setSubmitted(true);
+    } catch (err) {
+      setErrorMsg(
+        err instanceof Error ? err.message : "Something went wrong. Please try again or email hello@shrempies.com directly."
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -51,6 +80,44 @@ export default function ContactPage() {
       >
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 70% 50% at 50% -5%, rgba(186,230,253,0.50) 0%, transparent 65%)" }} />
+
+        {/* Floating character friends */}
+        {HERO_FRIENDS.map((f) => (
+          <motion.div
+            key={f.name}
+            initial={{ opacity: 0, scale: 0.6, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 + f.delay * 0.15 }}
+            className="absolute pointer-events-none hidden md:block"
+            style={{
+              top: f.top,
+              right: f.right,
+              width: f.size,
+              height: f.size,
+              animation: `float ${5 + f.delay}s ease-in-out infinite`,
+              animationDelay: `${f.delay}s`,
+            }}
+            aria-hidden
+          >
+            <div
+              className="relative w-full h-full rounded-full overflow-hidden"
+              style={{
+                border: `3px solid ${f.color}aa`,
+                boxShadow: `0 12px 32px ${f.color}55, 0 0 0 4px rgba(255,255,255,0.12)`,
+                backgroundColor: f.color,
+              }}
+            >
+              <Image
+                src={`/characters/${f.name.toLowerCase()}.png`}
+                alt=""
+                fill
+                className="object-cover object-top"
+                sizes="96px"
+              />
+            </div>
+          </motion.div>
+        ))}
+
         <div className="relative z-10 max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="text-xs font-bold uppercase tracking-[0.25em] mb-5 opacity-50"
@@ -68,7 +135,7 @@ export default function ContactPage() {
           </motion.div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-14 overflow-hidden">
-          <svg viewBox="0 0 1440 56" preserveAspectRatio="none" className="w-full h-full">
+          <svg aria-hidden="true" viewBox="0 0 1440 56" preserveAspectRatio="none" className="w-full h-full">
             <path d="M0,28 C360,56 720,0 1080,28 C1260,42 1380,14 1440,28 L1440,56 L0,56 Z" fill="#FBF8F3" />
           </svg>
         </div>
@@ -195,7 +262,7 @@ export default function ContactPage() {
                         style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
                         Email *
                       </label>
-                      <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                      <input type="email" required aria-required="true" value={email} onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
                         className="w-full px-5 py-4 rounded-xl text-sm outline-none"
                         style={{ backgroundColor: "white", color: "#061E3A",
@@ -222,6 +289,26 @@ export default function ContactPage() {
                       boxShadow: "0 8px 32px rgba(8,80,65,0.3)" }}>
                     {loading ? "Sending..." : "Send Message →"}
                   </button>
+
+                  {errorMsg && (
+                    <div
+                      role="alert"
+                      aria-live="polite"
+                      className="rounded-2xl px-5 py-4 text-sm"
+                      style={{
+                        backgroundColor: "rgba(192,25,46,0.08)",
+                        border: "1px solid rgba(192,25,46,0.25)",
+                        color: "#C0192E",
+                        fontFamily: "var(--font-body), sans-serif",
+                      }}
+                    >
+                      {errorMsg} You can also reach us directly at{" "}
+                      <a href="mailto:hello@shrempies.com" className="underline font-bold">
+                        hello@shrempies.com
+                      </a>
+                      .
+                    </div>
+                  )}
                 </form>
               )}
             </motion.div>

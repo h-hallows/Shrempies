@@ -126,7 +126,7 @@ export default function PrintablesPage() {
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-14 overflow-hidden">
-          <svg viewBox="0 0 1440 56" preserveAspectRatio="none" className="w-full h-full">
+          <svg aria-hidden="true" viewBox="0 0 1440 56" preserveAspectRatio="none" className="w-full h-full">
             <path d="M0,28 C360,56 720,0 1080,28 C1260,42 1380,14 1440,28 L1440,56 L0,56 Z" fill="#FBF8F3" />
           </svg>
         </div>
