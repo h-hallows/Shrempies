@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 
 const ITEMS = [
   { icon: "🦐", text: "13 original characters" },
@@ -43,10 +42,9 @@ export default function TrustStrip() {
         style={{ background: "linear-gradient(to left, #061E3A, transparent)" }}
       />
 
-      <motion.div
-        animate={{ x: paused ? undefined : ["0%", "-50%"] }}
-        transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
-        className="flex items-center gap-0 whitespace-nowrap"
+      <div
+        className="animate-track flex items-center gap-0 whitespace-nowrap"
+        data-paused={paused ? "true" : "false"}
         style={{ width: "max-content" }}
       >
         {TRACK.map((item, i) => (
@@ -61,7 +59,7 @@ export default function TrustStrip() {
             <span style={{ color: "rgba(94,234,212,0.35)", fontSize: 8 }}>◆</span>
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }

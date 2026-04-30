@@ -2,15 +2,21 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type ComponentType, type SVGProps } from "react";
+import { EyeIcon, SparkleIcon, HeartIcon, DiamondIcon, NoteIcon, ShieldIcon } from "@/components/ui/Icons";
 
-const AGE_STAGES = [
+type IconCmp = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
+
+const AGE_STAGES: {
+  range: string; label: string; color: string; bg: string;
+  Icon: IconCmp; what: string; why: string; songs: string[];
+}[] = [
   {
     range: "0 – 6 months",
     label: "Newborn",
     color: "#06B6D4",
     bg: "rgba(6,182,212,0.10)",
-    icon: "◎",
+    Icon: EyeIcon,
     what: "Gentle lullabies that calm the nervous system. Soft melodies and warm vocals for sensory comfort during feeds, naps, and settling.",
     why: "At this stage, repetition and rhythm are everything. Simple melodic patterns become familiar anchors — giving your baby something predictable in a huge new world.",
     songs: ["Floating with the Tide", "The Shrempy Hum", "Little Lights Go Dim"],
@@ -20,7 +26,7 @@ const AGE_STAGES = [
     label: "Baby",
     color: "#0D9488",
     bg: "rgba(13,148,136,0.10)",
-    icon: "✦",
+    Icon: SparkleIcon,
     what: "Movement songs that invite wiggling, clapping, and kicking. Call-and-response patterns that develop listening and anticipation.",
     why: "Babies begin to connect cause and effect. Songs with predictable 'what comes next' moments give them the thrill of being right — a crucial developmental win.",
     songs: ["Wiggle Like a Shrempy", "The Bubble Bounce", "Swim Swim Swim"],
@@ -30,7 +36,7 @@ const AGE_STAGES = [
     label: "Early Walker",
     color: "#085041",
     bg: "rgba(8,80,65,0.10)",
-    icon: "♡",
+    Icon: HeartIcon,
     what: "Simple character songs that introduce names, personalities, and feelings. Stories about recognisable emotions like frustration, excitement, and missing someone.",
     why: "Language is exploding. Songs with clear, repeated vocabulary — especially feeling words — dramatically expand emotional literacy during the most rapid developmental window.",
     songs: ["This Is Shrempy", "Even Shrempies Get the Grumps", "Happy Feels Like Bubbles"],
@@ -40,34 +46,34 @@ const AGE_STAGES = [
     label: "Toddler",
     color: "#E8601C",
     bg: "rgba(232,96,28,0.10)",
-    icon: "◈",
+    Icon: DiamondIcon,
     what: "Full narrative episodes and character arcs. Songs about big feelings, social situations, and the joy of just being. Imaginative worlds to enter and explore.",
     why: "Toddlers are building theory of mind — starting to understand that others have different feelings. Character-driven stories with emotional honesty directly support this leap.",
     songs: ["I Don't Know and That's Okay", "Two Shrempies", "Across the Coral Reef"],
   },
 ];
 
-const PILLARS = [
+const PILLARS: { Icon: IconCmp; title: string; body: string; color: string }[] = [
   {
-    icon: "♡",
+    Icon: HeartIcon,
     title: "Emotional intelligence first",
     body: "Every song, story, and character is designed around naming feelings — not hiding them. We treat your child's inner life as the most important thing.",
     color: "#E8601C",
   },
   {
-    icon: "◎",
+    Icon: EyeIcon,
     title: "Developmentally grounded",
     body: "From nervous system regulation to language acquisition — each piece of content is built around how young brains actually develop, not what's most engaging to an algorithm.",
     color: "#0D9488",
   },
   {
-    icon: "✦",
+    Icon: SparkleIcon,
     title: "Genuinely beautiful",
     body: "Children deserve beauty, not noise. Shrempies is ocean-rich, warm, and full of real wonder — a world you'll actually enjoy visiting with them.",
     color: "#F5A623",
   },
   {
-    icon: "◉",
+    Icon: ShieldIcon,
     title: "Zero data. Zero ads. Zero tracking.",
     body: "Shrempies was built for babies, not algorithms. We collect nothing. No cookies for kids, no behavioural tracking, no advertising to children. Period.",
     color: "#06B6D4",
@@ -106,7 +112,7 @@ export default function ParentsPage() {
       <section
         className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
         style={{
-          background: "linear-gradient(175deg, #0EA5E9 0%, #06B6D4 22%, #0D9488 52%, #065F46 80%, #047857 100%)",
+          background: "linear-gradient(170deg, #FDB892 0%, #F0958C 25%, #C76D78 55%, #7E5887 80%, #3F4870 100%)",
         }}
       >
         {/* Light ambient */}
@@ -128,7 +134,7 @@ export default function ParentsPage() {
               For parents & caregivers
             </p>
             <h1 className="display-lg font-black mb-6 leading-tight" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff", textShadow: "0 2px 40px rgba(0,0,0,0.15)" }}>
-              Made for your little one.<br />
+              Made for your little one.<br className="hidden sm:block" />
               <span style={{ color: "#FDE68A", textShadow: "0 0 40px rgba(251,191,36,0.5)" }}>Designed for you.</span>
             </h1>
             <p className="text-lg sm:text-xl leading-relaxed max-w-2xl" style={{ color: "rgba(224,242,254,0.90)", fontFamily: "var(--font-body), sans-serif" }}>
@@ -175,7 +181,7 @@ export default function ParentsPage() {
               Age-by-age guide
             </p>
             <h2 className="display-lg font-black leading-tight" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
-              Right content,<br />right time.
+              Right content,<br className="hidden sm:block" />right time.
             </h2>
           </motion.div>
 
@@ -232,7 +238,7 @@ export default function ParentsPage() {
                           scale: isActive ? 1 : 0.52,
                         }}
                         transition={{ type: "spring", stiffness: 340, damping: 22 }}
-                        className="relative rounded-full flex items-center justify-center text-xl font-black"
+                        className="relative rounded-full flex items-center justify-center"
                         style={{
                           width: 56,
                           height: 56,
@@ -240,10 +246,9 @@ export default function ParentsPage() {
                           color: isActive || isPast ? "#fff" : s.color,
                           border: `3px solid ${s.color}`,
                           boxShadow: isActive ? `0 8px 24px ${s.color}55, 0 0 0 4px ${s.color}22` : "none",
-                          fontFamily: "var(--font-heading), sans-serif",
                         }}
                       >
-                        {s.icon}
+                        <s.Icon size={22} />
                       </motion.div>
                     </div>
                     <div className="text-center min-h-[52px]">
@@ -290,10 +295,10 @@ export default function ParentsPage() {
               }}
             >
               <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6"
+                className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
                 style={{ backgroundColor: `${AGE_STAGES[activeStage].color}20`, color: AGE_STAGES[activeStage].color }}
               >
-                {AGE_STAGES[activeStage].icon}
+                {(() => { const I = AGE_STAGES[activeStage].Icon; return <I size={26} />; })()}
               </div>
               <h3 className="text-2xl font-black mb-3" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
                 What Shrempies offers at {AGE_STAGES[activeStage].range}
@@ -312,7 +317,7 @@ export default function ParentsPage() {
                       fontFamily: "var(--font-body), sans-serif",
                     }}
                   >
-                    ♪ {song}
+                    <span className="inline-flex items-center gap-1.5"><NoteIcon size={12} />{song}</span>
                   </span>
                 ))}
               </div>
@@ -331,26 +336,21 @@ export default function ParentsPage() {
                   Developmental goals at this stage:
                 </p>
                 <div className="space-y-2">
-                  {activeStage === 0 && ["Sensory regulation", "Familiar voice recognition", "Sleep association"].map(g => (
-                    <div key={g} className="flex items-center gap-2 text-sm" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif", opacity: 0.7 }}>
-                      <span style={{ color: "#06B6D4" }}>◎</span> {g}
-                    </div>
-                  ))}
-                  {activeStage === 1 && ["Cause and effect understanding", "Listening and anticipation", "Gross motor movement"].map(g => (
-                    <div key={g} className="flex items-center gap-2 text-sm" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif", opacity: 0.7 }}>
-                      <span style={{ color: "#0D9488" }}>✦</span> {g}
-                    </div>
-                  ))}
-                  {activeStage === 2 && ["Vocabulary explosion", "Emotional recognition", "Social referencing"].map(g => (
-                    <div key={g} className="flex items-center gap-2 text-sm" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif", opacity: 0.7 }}>
-                      <span style={{ color: "#085041" }}>♡</span> {g}
-                    </div>
-                  ))}
-                  {activeStage === 3 && ["Theory of mind", "Narrative understanding", "Emotional regulation"].map(g => (
-                    <div key={g} className="flex items-center gap-2 text-sm" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif", opacity: 0.7 }}>
-                      <span style={{ color: "#E8601C" }}>◈</span> {g}
-                    </div>
-                  ))}
+                  {(() => {
+                    const goals = [
+                      ["Sensory regulation", "Familiar voice recognition", "Sleep association"],
+                      ["Cause and effect understanding", "Listening and anticipation", "Gross motor movement"],
+                      ["Vocabulary explosion", "Emotional recognition", "Social referencing"],
+                      ["Theory of mind", "Narrative understanding", "Emotional regulation"],
+                    ][activeStage];
+                    const Icon = AGE_STAGES[activeStage].Icon;
+                    return goals.map((g) => (
+                      <div key={g} className="flex items-center gap-2 text-sm" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif", opacity: 0.75 }}>
+                        <span style={{ color: AGE_STAGES[activeStage].color }}><Icon size={14} /></span>
+                        {g}
+                      </div>
+                    ));
+                  })()}
                 </div>
               </div>
             </div>
@@ -366,7 +366,7 @@ export default function ParentsPage() {
               How we're different
             </p>
             <h2 className="display-lg font-black" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
-              Built for babies,<br />not algorithms.
+              Built for babies,<br className="hidden sm:block" />not algorithms.
             </h2>
           </motion.div>
 
@@ -382,10 +382,10 @@ export default function ParentsPage() {
                 style={{ backgroundColor: "#FBF8F3", boxShadow: "0 2px 24px rgba(6,30,58,0.06)" }}
               >
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6"
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
                   style={{ backgroundColor: `${p.color}15`, color: p.color }}
                 >
-                  {p.icon}
+                  <p.Icon size={26} />
                 </div>
                 <h3 className="text-xl font-black mb-3" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
                   {p.title}
@@ -418,13 +418,13 @@ export default function ParentsPage() {
                 fontFamily: "var(--font-body), sans-serif",
               }}
             >
-              <span style={{ color: "#5EEAD4" }}>◉</span> Privacy Pledge
+              <span style={{ color: "#5EEAD4" }}><ShieldIcon size={16} /></span> Privacy Pledge
             </div>
             <h2
               className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 leading-tight"
               style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff" }}
             >
-              Zero data.<br />
+              Zero data.<br className="hidden sm:block" />
               <span style={{ color: "#5EEAD4" }}>Zero ads. Zero tracking.</span>
             </h2>
             <p className="text-lg leading-relaxed mb-8" style={{ color: "rgba(214,245,234,0.80)", fontFamily: "var(--font-body), sans-serif" }}>
@@ -495,7 +495,7 @@ export default function ParentsPage() {
               Watch together
             </p>
             <h2 className="display-lg font-black leading-tight" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
-              Co-viewing<br />makes it count.
+              Co-viewing<br className="hidden sm:block" />makes it count.
             </h2>
             <p className="mt-5 text-lg max-w-xl opacity-65" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
               Research shows watching together — not just letting them watch — doubles the developmental benefit. Here's how to make it easy.
@@ -544,7 +544,7 @@ export default function ParentsPage() {
               Parent newsletter
             </p>
             <h2 className="text-3xl sm:text-4xl font-black mb-4" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#FAF7F2" }}>
-              The best of Shrempies,<br />in your inbox.
+              The best of Shrempies,<br className="hidden sm:block" />in your inbox.
             </h2>
             <p className="text-base mb-3 opacity-75" style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}>
               Age-calibrated activity ideas, new songs, co-viewing tips, and character updates — curated for the age your child is right now.

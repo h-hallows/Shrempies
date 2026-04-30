@@ -218,10 +218,10 @@ export default function Hero() {
               textShadow: "0 2px 40px rgba(0,0,0,0.20), 0 0 80px rgba(186,230,253,0.25)",
             }}
           >
-            A world of wonder<br />
+            A world of wonder<br className="hidden sm:block" />
             <span style={{ color: "#FDE68A", textShadow: "0 0 40px rgba(251,191,36,0.6), 0 0 80px rgba(251,191,36,0.3)" }}>
               for the newest
-            </span><br />
+            </span><br className="hidden sm:block" />
             generation.
           </h1>
           <p

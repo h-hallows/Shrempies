@@ -1,25 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ComponentType, type SVGProps } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import CountUp from "@/components/ui/CountUp";
+import { DiamondIcon, ShieldIcon, StarIcon, EyeIcon, NoteIcon, HeartIcon, SparkleIcon } from "@/components/ui/Icons";
+
+type IconCmp = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 
 type Asset = {
   label: string;
   num?: number;
   static?: string;
-  icon: string;
+  Icon: IconCmp;
   detail: string;
 };
 
 const assets: Asset[] = [
-  { label: "Original Songs",       num: 36,          icon: "◈", detail: "Volumes 1 & 2, with hundreds in development" },
-  { label: "Episode Scripts",      num: 16,          icon: "◉", detail: "Short-form stories, 7–11 min, fully written" },
-  { label: "Original Characters",  num: 13,          icon: "★", detail: "Named, with backstories and personality arcs" },
-  { label: "Children's Books",     static: "Live",   icon: "◎", detail: "Already published and in market" },
-  { label: "Music Partnerships",   static: "Active", icon: "♪", detail: "Award-winning musicians on board" },
-  { label: "Community History",    static: "Years",  icon: "♡", detail: "IP universe built over years with real community" },
+  { label: "Original Songs",       num: 36,          Icon: DiamondIcon, detail: "Volumes 1 & 2, with hundreds in development" },
+  { label: "Episode Scripts",      num: 16,          Icon: ShieldIcon,  detail: "Short-form stories, 7–11 min, fully written" },
+  { label: "Original Characters",  num: 13,          Icon: StarIcon,    detail: "Named, with backstories and personality arcs" },
+  { label: "Children's Books",     static: "Live",   Icon: EyeIcon,     detail: "Already published and in market" },
+  { label: "Music Partnerships",   static: "Active", Icon: NoteIcon,    detail: "Award-winning musicians on board" },
+  { label: "Community History",    static: "Years",  Icon: HeartIcon,   detail: "IP universe built over years with real community" },
 ];
 
 const comparisons = [
@@ -56,7 +59,7 @@ export default function InvestPage() {
       {/* Hero */}
       <section
         className="relative min-h-[70vh] flex items-center py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
-        style={{ background: "linear-gradient(175deg, #0EA5E9 0%, #06B6D4 22%, #0D9488 52%, #065F46 80%, #047857 100%)" }}
+        style={{ background: "linear-gradient(160deg, #04132A 0%, #061E3A 30%, #0A2D4D 60%, #1A3A5C 100%)" }}
       >
         {/* Ambient light */}
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -128,7 +131,7 @@ export default function InvestPage() {
             </p>
             <h2 className="text-3xl sm:text-4xl font-black"
               style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
-              Every generation gets one.<br />
+              Every generation gets one.<br className="hidden sm:block" />
               <span style={{ color: "#085041" }}>The next one is being built now.</span>
             </h2>
           </motion.div>
@@ -229,19 +232,19 @@ export default function InvestPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                icon: "◈",
+                Icon: DiamondIcon,
                 color: "#E8601C",
                 title: "Gen Beta is being born",
                 body: "The first cohort of Gen Beta — born 2025 onward — are arriving now. The IP that captures this generation will define the next decade of children's media. The window to be first is open for a very short time.",
               },
               {
-                icon: "✦",
+                Icon: SparkleIcon,
                 color: "#0D9488",
                 title: "Parents want something better",
                 body: "The backlash against algorithmically-optimised, overstimulating children's content is real and growing. Parents are actively seeking alternatives. Shrempies is the alternative — emotionally honest, developmentally grounded, actually beautiful.",
               },
               {
-                icon: "♡",
+                Icon: HeartIcon,
                 color: "#F5A623",
                 title: "The IP is already built",
                 body: "Most children's media startups are pre-content. Shrempies has 36 original songs, 16 episode scripts, 13 characters, and published books. The foundation is done. This raise is about production and distribution — not development.",
@@ -253,9 +256,9 @@ export default function InvestPage() {
                 whileHover={{ y: -4 }}
                 className="rounded-3xl p-9"
                 style={{ backgroundColor: "#FBF8F3", boxShadow: `0 2px 0 0 ${item.color}30, 0 8px 32px rgba(6,30,58,0.06)` }}>
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-5"
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
                   style={{ backgroundColor: `${item.color}15`, color: item.color }}>
-                  {item.icon}
+                  <item.Icon size={24} />
                 </div>
                 <h3 className="text-xl font-black mb-3"
                   style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
@@ -303,7 +306,7 @@ export default function InvestPage() {
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{ background: "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(245,166,35,0.18) 0%, transparent 70%)" }}
                 />
-                <div className="relative text-2xl" style={{ color: "#F5A623" }}>{a.icon}</div>
+                <div className="relative" style={{ color: "#F5A623" }}><a.Icon size={26} /></div>
                 <div className="relative text-3xl font-black" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#F5A623", textShadow: "0 0 24px rgba(245,166,35,0.35)" }}>
                   {a.static ? a.static : <CountUp value={a.num ?? 0} duration={1600} />}
                 </div>
@@ -341,7 +344,7 @@ export default function InvestPage() {
               </p>
               <h2 className="text-3xl sm:text-4xl font-black mb-6"
                 style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
-                Pre-seed.<br />Strategic partners only.
+                Pre-seed.<br className="hidden sm:block" />Strategic partners only.
               </h2>
               <p className="text-base leading-relaxed opacity-70 mb-8"
                 style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>

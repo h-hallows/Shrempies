@@ -291,7 +291,7 @@ export default function CharactersPage() {
             className="display-xl font-black mb-6"
             style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff" }}
           >
-            Meet the<br />
+            Meet the<br className="hidden sm:block" />
             <span style={{ color: "#F5A623" }}>Shrempies</span>
           </h1>
           <p

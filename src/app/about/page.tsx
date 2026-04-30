@@ -2,6 +2,10 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import type { ComponentType, SVGProps } from "react";
+import { NoteIcon, EyeIcon, HeartIcon, DiamondIcon, SparkleIcon, ShieldIcon } from "@/components/ui/Icons";
+
+type IconCmp = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 
 const beliefs = [
   {
@@ -24,13 +28,13 @@ const beliefs = [
   },
 ];
 
-const credentials = [
-  { label: "Award-winning musicians", icon: "♪", detail: "Professional composers and producers on board" },
-  { label: "Published children's books", icon: "◎", detail: "Already in market" },
-  { label: "Multi-year IP history", icon: "♡", detail: "A community-built universe with real roots" },
-  { label: "36 original songs", icon: "◈", detail: "Volumes 1 & 2, with hundreds in development" },
-  { label: "16 episode scripts", icon: "✦", detail: "7–11 min short-form, fully written" },
-  { label: "13 named characters", icon: "◉", detail: "Each with full personality arcs" },
+const credentials: { label: string; Icon: IconCmp; detail: string }[] = [
+  { label: "Award-winning musicians", Icon: NoteIcon, detail: "Professional composers and producers on board" },
+  { label: "Published children's books", Icon: EyeIcon, detail: "Already in market" },
+  { label: "Multi-year IP history", Icon: HeartIcon, detail: "A community-built universe with real roots" },
+  { label: "36 original songs", Icon: DiamondIcon, detail: "Volumes 1 & 2, with hundreds in development" },
+  { label: "16 episode scripts", Icon: SparkleIcon, detail: "7–11 min short-form, fully written" },
+  { label: "13 named characters", Icon: ShieldIcon, detail: "Each with full personality arcs" },
 ];
 
 export default function AboutPage() {
@@ -39,7 +43,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section
         className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
-        style={{ background: "linear-gradient(175deg, #0EA5E9 0%, #06B6D4 22%, #0D9488 52%, #065F46 80%, #047857 100%)" }}
+        style={{ background: "linear-gradient(180deg, #053D2E 0%, #074A39 35%, #0B5746 70%, #042C53 100%)" }}
       >
         {/* Glow orbs */}
         {[
@@ -61,7 +65,7 @@ export default function AboutPage() {
             </p>
             <h1 className="display-lg font-black mb-6 leading-tight"
               style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff" }}>
-              The underwater world<br />
+              The underwater world<br className="hidden sm:block" />
               <span style={{ color: "#F5A623" }}>where big feelings live.</span>
             </h1>
             <p className="text-lg opacity-70 max-w-xl"
@@ -91,7 +95,7 @@ export default function AboutPage() {
             </p>
             <h2 className="text-3xl sm:text-4xl font-black mb-5 leading-tight"
               style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
-              Built from community.<br />Built for a generation.
+              Built from community.<br className="hidden sm:block" />Built for a generation.
             </h2>
             <p className="text-base leading-relaxed opacity-70"
               style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
@@ -183,7 +187,7 @@ export default function AboutPage() {
             </p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-8 leading-tight"
               style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff" }}>
-              Building for the generation that will<br />
+              Building for the generation that will<br className="hidden sm:block" />
               <span style={{ color: "#F5A623" }}>grow up alongside AI.</span>
             </h2>
             <p className="text-base leading-relaxed opacity-70 max-w-2xl mx-auto mb-5"
@@ -210,7 +214,7 @@ export default function AboutPage() {
             </p>
             <h2 className="text-3xl sm:text-4xl font-black"
               style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
-              Three things Shrempies<br />knows to be true.
+              Three things Shrempies<br className="hidden sm:block" />knows to be true.
             </h2>
           </motion.div>
 
@@ -294,10 +298,10 @@ export default function AboutPage() {
                     }}
                   />
                   <div
-                    className="relative w-11 h-11 rounded-xl flex items-center justify-center text-xl transition-all duration-300 group-hover:scale-110"
+                    className="relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
                     style={{ backgroundColor: `${accent}18`, color: accent }}
                   >
-                    {c.icon}
+                    <c.Icon size={22} />
                   </div>
                   <div className="relative font-black text-lg" style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}>
                     {c.label}

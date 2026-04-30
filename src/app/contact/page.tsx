@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ComponentType, type SVGProps } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import PlatformLinks from "@/components/ui/PlatformLinks";
+import { EyeIcon, DiamondIcon, SparkleIcon, HeartIcon, PlayIcon, StarIcon } from "@/components/ui/Icons";
+
+type IconCmp = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 
 const HERO_FRIENDS = [
   { name: "Pip",     color: "#E8601C", size: 96,  top: "18%", right: "6%",  delay: 0 },
@@ -14,17 +17,17 @@ const HERO_FRIENDS = [
 
 type InquiryType = "general" | "investment" | "partnership" | "press";
 
-const types: { value: InquiryType; label: string; icon: string; description: string }[] = [
-  { value: "general", label: "General", icon: "◎", description: "Questions, ideas, or anything else" },
-  { value: "investment", label: "Investment", icon: "◈", description: "Pre-seed / strategic partnership" },
-  { value: "partnership", label: "Partnership", icon: "✦", description: "Streaming, toys, publishing, music" },
-  { value: "press", label: "Press", icon: "♡", description: "Media inquiries and features" },
+const types: { value: InquiryType; label: string; Icon: IconCmp; description: string }[] = [
+  { value: "general", label: "General", Icon: EyeIcon, description: "Questions, ideas, or anything else" },
+  { value: "investment", label: "Investment", Icon: DiamondIcon, description: "Pre-seed / strategic partnership" },
+  { value: "partnership", label: "Partnership", Icon: SparkleIcon, description: "Streaming, toys, publishing, music" },
+  { value: "press", label: "Press", Icon: HeartIcon, description: "Media inquiries and features" },
 ];
 
-const quickLinks = [
-  { label: "YouTube", sub: "@shrempies", href: "https://youtube.com/@shrempies", icon: "▶" },
-  { label: "Investor Deck", sub: "Request access", href: "/invest", icon: "◈" },
-  { label: "Characters", sub: "Meet the cast", href: "/characters", icon: "★" },
+const quickLinks: { label: string; sub: string; href: string; Icon: IconCmp }[] = [
+  { label: "YouTube", sub: "@shrempies", href: "https://youtube.com/@shrempies", Icon: PlayIcon },
+  { label: "Investor Deck", sub: "Request access", href: "/invest", Icon: DiamondIcon },
+  { label: "Characters", sub: "Meet the cast", href: "/characters", Icon: StarIcon },
 ];
 
 export default function ContactPage() {
@@ -76,7 +79,7 @@ export default function ContactPage() {
       {/* Hero */}
       <section
         className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
-        style={{ background: "linear-gradient(175deg, #0EA5E9 0%, #06B6D4 22%, #0D9488 52%, #065F46 80%, #047857 100%)" }}
+        style={{ background: "linear-gradient(165deg, #FFB088 0%, #F2728C 35%, #E8601C 75%, #B8412A 100%)" }}
       >
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 70% 50% at 50% -5%, rgba(186,230,253,0.50) 0%, transparent 65%)" }} />
@@ -164,7 +167,7 @@ export default function ContactPage() {
                       style={{ backgroundColor: "white", boxShadow: "0 2px 12px rgba(6,30,58,0.07)" }}>
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                         style={{ backgroundColor: "#F0F9F4", color: "#085041" }}>
-                        {l.icon}
+                        <l.Icon size={20} />
                       </div>
                       <div>
                         <div className="font-bold text-sm"
@@ -232,7 +235,7 @@ export default function ContactPage() {
                               fontFamily: "var(--font-body), sans-serif",
                               boxShadow: isActive ? "0 4px 16px rgba(6,30,58,0.2)" : "none",
                             }}>
-                            <span className="text-xs">{t.icon}</span>
+                            <t.Icon size={14} />
                             <span>{t.label}</span>
                           </button>
                         );
