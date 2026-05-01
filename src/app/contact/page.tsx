@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import PlatformLinks from "@/components/ui/PlatformLinks";
+import Spinner from "@/components/ui/Spinner";
 import { EyeIcon, DiamondIcon, SparkleIcon, HeartIcon, PlayIcon, StarIcon } from "@/components/ui/Icons";
 
 type IconCmp = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
@@ -254,7 +255,7 @@ export default function ContactPage() {
                         style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
                         Name
                       </label>
-                      <input type="text" value={name} onChange={(e) => setName(e.target.value)}
+                      <input type="text" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)}
                         placeholder="Your name"
                         className="w-full px-5 py-4 rounded-xl text-sm outline-none"
                         style={{ backgroundColor: "white", color: "#061E3A",
@@ -265,7 +266,7 @@ export default function ContactPage() {
                         style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
                         Email *
                       </label>
-                      <input type="email" required aria-required="true" value={email} onChange={(e) => setEmail(e.target.value)}
+                      <input type="email" autoComplete="email" required aria-required="true" value={email} onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
                         className="w-full px-5 py-4 rounded-xl text-sm outline-none"
                         style={{ backgroundColor: "white", color: "#061E3A",
@@ -287,10 +288,10 @@ export default function ContactPage() {
                   </div>
 
                   <button type="submit" disabled={loading}
-                    className="px-8 py-4 rounded-full font-black text-base text-white transition-all hover:scale-105 disabled:opacity-60"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-black text-base text-white transition-all hover:scale-105 disabled:opacity-60"
                     style={{ backgroundColor: "#085041", fontFamily: "var(--font-heading), sans-serif",
                       boxShadow: "0 8px 32px rgba(8,80,65,0.3)" }}>
-                    {loading ? "Sending..." : "Send Message →"}
+                    {loading ? <><Spinner size={16} /> Sending&hellip;</> : <>Send message →</>}
                   </button>
 
                   {errorMsg && (

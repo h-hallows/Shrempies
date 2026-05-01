@@ -12,6 +12,10 @@
   --color-cyan: #06B6D4;
   --color-sky: #0EA5E9;
   --color-lavender: #EEEDFE;
+  --color-rara: #7B4FBF;
+  --color-rara-soft: #A78BFA;
+  --color-pink: #F2728C;
+  --color-blaze: #C0192E;
 
   /* Card / shadow tokens — used by .card-shell utility below */
   --shadow-card: 0 2px 24px rgba(6, 30, 58, 0.06);
@@ -154,6 +158,11 @@ body {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   line-height: 1.0;
   letter-spacing: -0.02em;
+}
+.display-md {
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.018em;
 }
 
 /* ── Glass card ─────────────────────────────────────── */
@@ -324,3 +333,32 @@ input:focus, textarea:focus {
 .animate-track[data-paused="true"] {
   animation-play-state: paused;
 }
+
+/* Tailwind v4 doesn't provide .animate-spin by default the same way v3 did;
+   ship a fast spin keyframe utility for the form Spinner component. */
+@keyframes spin-fast {
+  to { transform: rotate(360deg); }
+}
+.animate-spin {
+  animation: spin-fast 0.7s linear infinite;
+}
+
+/* Progressive-enhancement fallback: if JavaScript fails or hydration is slow,
+   force above-the-fold animated content to be visible after a tiny delay. The
+   `.no-js-fallback` class is applied to hero motion wrappers; the rule fires
+   regardless of whether Framer Motion has hydrated yet. */
+.no-js-fallback {
+  animation: hydrate-fade-in 0.6s ease-out 0.4s both;
+}
+@keyframes hydrate-fade-in {
+  from { opacity: 1; }   /* keeps it visible if Framer never starts */
+  to   { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .no-js-fallback { animation: none; opacity: 1 !important; }
+}
+
+/* Ensure body content does not flash invisible — guard against hero motion
+   wrappers that set initial opacity to 0 inline. We rely on CSS coming
+   before the JS runtime. */
+[data-no-flash] { opacity: 1 !important; }

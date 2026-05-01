@@ -315,6 +315,34 @@ export default function EpisodesPage() {
             </div>
           </div>
 
+          {filtered.length === 0 ? (
+            <div
+              className="rounded-3xl py-14 px-6 text-center"
+              style={{ backgroundColor: "#F0F9F4", border: "1px solid rgba(8,80,65,0.12)" }}
+              role="status"
+              aria-live="polite"
+            >
+              <p
+                className="text-base font-bold mb-2"
+                style={{ color: "#061E3A", fontFamily: "var(--font-heading), sans-serif" }}
+              >
+                No episodes match this theme yet.
+              </p>
+              <p
+                className="text-sm opacity-65 mb-5"
+                style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}
+              >
+                We&rsquo;re still writing. Try another lens, or peek at the full list.
+              </p>
+              <button
+                onClick={() => setActiveTheme("all")}
+                className="px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
+                style={{ backgroundColor: "#061E3A", color: "#fff", fontFamily: "var(--font-body), sans-serif" }}
+              >
+                Show all episodes
+              </button>
+            </div>
+          ) : null}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((ep, i) => {
               const primaryTheme = (EP_THEMES[ep.number] ?? [])[0];

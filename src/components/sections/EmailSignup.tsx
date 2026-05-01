@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Spinner from "@/components/ui/Spinner";
 
 const PEEK_CHARS = [
   { name: "pip",     color: "#F5A623" },
@@ -212,6 +213,8 @@ export default function EmailSignup() {
               <input
                 type="email"
                 required
+                aria-required="true"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
@@ -227,7 +230,7 @@ export default function EmailSignup() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-4 rounded-full font-black text-sm transition-all hover:scale-105 active:scale-95 disabled:opacity-60 shrink-0"
+                className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full font-black text-sm transition-all hover:scale-105 active:scale-95 disabled:opacity-60 shrink-0"
                 style={{
                   backgroundColor: "#F5A623",
                   color: "#042C53",
@@ -235,7 +238,7 @@ export default function EmailSignup() {
                   boxShadow: "0 4px 20px rgba(245,166,35,0.4)",
                 }}
               >
-                {loading ? "..." : "Join the reef →"}
+                {loading ? <><Spinner size={14} color="#042C53" /> Sending&hellip;</> : <>Join the reef →</>}
               </button>
             </form>
           )}

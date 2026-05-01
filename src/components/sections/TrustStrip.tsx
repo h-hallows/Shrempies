@@ -1,18 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ComponentType, type SVGProps } from "react";
+import {
+  StarIcon, NoteIcon, SparkleIcon, ShieldIcon, WaveIcon, HeartIcon, EyeIcon, BubbleIcon, PlayIcon,
+} from "@/components/ui/Icons";
 
-const ITEMS = [
-  { icon: "🦐", text: "13 original characters" },
-  { icon: "🎵", text: "36 songs" },
-  { icon: "✦",  text: "0 villains" },
-  { icon: "🚫", text: "0 ads to children. Ever." },
-  { icon: "🌊", text: "Built for Gen Beta" },
-  { icon: "❤️", text: "Emotionally intelligent" },
-  { icon: "🧠", text: "Developmentally grounded" },
-  { icon: "✨", text: "Actually beautiful" },
-  { icon: "🔒", text: "Zero data collection" },
-  { icon: "🎬", text: "16 episode scripts" },
+type IconCmp = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
+
+const ITEMS: { Icon: IconCmp; text: string }[] = [
+  { Icon: StarIcon,    text: "13 original characters" },
+  { Icon: NoteIcon,    text: "36 songs" },
+  { Icon: SparkleIcon, text: "0 villains" },
+  { Icon: ShieldIcon,  text: "0 ads to children. Ever." },
+  { Icon: WaveIcon,    text: "Built for Gen Beta" },
+  { Icon: HeartIcon,   text: "Emotionally intelligent" },
+  { Icon: EyeIcon,     text: "Developmentally grounded" },
+  { Icon: BubbleIcon,  text: "Actually beautiful" },
+  { Icon: ShieldIcon,  text: "Zero data collection" },
+  { Icon: PlayIcon,    text: "16 episode scripts" },
 ];
 
 // Duplicate for seamless loop
@@ -48,15 +53,27 @@ export default function TrustStrip() {
         style={{ width: "max-content" }}
       >
         {TRACK.map((item, i) => (
-          <div key={i} className="group flex items-center gap-6 px-6 transition-opacity">
-            <span className="text-base transition-transform group-hover:scale-125">{item.icon}</span>
+          <div key={i} className="group flex items-center gap-3 px-6 transition-opacity">
+            <span className="transition-transform group-hover:scale-110" style={{ color: "#5EEAD4" }}>
+              <item.Icon size={16} />
+            </span>
             <span
               className="text-xs font-bold uppercase tracking-[0.18em] transition-colors"
               style={{ color: "rgba(225,245,238,0.82)", fontFamily: "var(--font-body), sans-serif" }}
             >
               {item.text}
             </span>
-            <span style={{ color: "rgba(94,234,212,0.35)", fontSize: 8 }}>◆</span>
+            <span
+              aria-hidden="true"
+              className="ml-3"
+              style={{
+                display: "inline-block",
+                width: 4,
+                height: 4,
+                borderRadius: 9999,
+                backgroundColor: "rgba(94,234,212,0.45)",
+              }}
+            />
           </div>
         ))}
       </div>

@@ -4,6 +4,7 @@ import { useState, type ComponentType, type SVGProps } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import CountUp from "@/components/ui/CountUp";
+import Spinner from "@/components/ui/Spinner";
 import { DiamondIcon, ShieldIcon, StarIcon, EyeIcon, NoteIcon, HeartIcon, SparkleIcon } from "@/components/ui/Icons";
 
 type IconCmp = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
@@ -399,26 +400,26 @@ export default function InvestPage() {
                     Strategic partners only. We review every request personally.
                   </p>
                   <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)}
+                    <input type="text" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)}
                       placeholder="Your name"
                       className="px-5 py-4 rounded-xl text-sm outline-none transition-colors"
                       style={{ backgroundColor: "rgba(255,255,255,0.08)", color: "#fff",
                         border: "1px solid rgba(214,245,234,0.15)", fontFamily: "var(--font-body), sans-serif" }} />
-                    <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                    <input type="email" autoComplete="email" required aria-required="true" value={email} onChange={(e) => setEmail(e.target.value)}
                       placeholder="Email address"
                       className="px-5 py-4 rounded-xl text-sm outline-none"
                       style={{ backgroundColor: "rgba(255,255,255,0.08)", color: "#fff",
                         border: "1px solid rgba(214,245,234,0.15)", fontFamily: "var(--font-body), sans-serif" }} />
-                    <input type="text" placeholder="Company / fund (optional)"
+                    <input type="text" autoComplete="organization" placeholder="Company / fund (optional)"
                       className="px-5 py-4 rounded-xl text-sm outline-none"
                       style={{ backgroundColor: "rgba(255,255,255,0.08)", color: "#fff",
                         border: "1px solid rgba(214,245,234,0.15)", fontFamily: "var(--font-body), sans-serif" }} />
                     <button type="submit" disabled={loading}
-                      className="shimmer px-6 py-4 rounded-xl font-black text-sm transition-all hover:scale-105 disabled:opacity-60"
+                      className="shimmer inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-black text-sm transition-all hover:scale-105 disabled:opacity-60"
                       style={{ backgroundColor: "#E8601C", color: "#fff",
                         fontFamily: "var(--font-heading), sans-serif",
                         boxShadow: "0 8px 32px rgba(232,96,28,0.4)" }}>
-                      {loading ? "Sending..." : "Request the Deck →"}
+                      {loading ? <><Spinner size={14} /> Sending&hellip;</> : <>Request the Deck →</>}
                     </button>
                   </form>
                   <p
