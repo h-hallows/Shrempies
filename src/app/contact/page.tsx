@@ -164,8 +164,8 @@ export default function ContactPage() {
                   {quickLinks.map((l) => (
                     <Link key={l.label} href={l.href}
                       {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                      className="flex items-center gap-4 p-4 rounded-2xl transition-all hover:-translate-y-0.5 group"
-                      style={{ backgroundColor: "white", boxShadow: "0 2px 12px rgba(6,30,58,0.07)" }}>
+                      className="card-shell !rounded-2xl flex items-center gap-4 p-4 hover:-translate-y-0.5 group"
+                      style={{ backgroundColor: "white" }}>
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                         style={{ backgroundColor: "#F0F9F4", color: "#085041" }}>
                         <l.Icon size={20} />

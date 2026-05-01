@@ -1,8 +1,7 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import FadeIn from "@/components/ui/FadeIn";
+import { NoteIcon, EyeIcon, SparkleIcon, DiamondIcon } from "@/components/ui/Icons";
 
 const FEATURED_SONGS = [
   {
@@ -35,30 +34,10 @@ const FEATURED_SONGS = [
 ];
 
 const WHAT_IS_NEW = [
-  {
-    icon: "♪",
-    color: "#0D9488",
-    label: "Volume 2 songs",
-    desc: "18 new tracks now streaming",
-  },
-  {
-    icon: "◎",
-    color: "#06B6D4",
-    label: "Episode scripts",
-    desc: "16 full episodes written",
-  },
-  {
-    icon: "✦",
-    color: "#F5A623",
-    label: "Characters expanded",
-    desc: "All 13 cast members profiled",
-  },
-  {
-    icon: "◈",
-    color: "#E8601C",
-    label: "Printables coming",
-    desc: "Activity packs in production",
-  },
+  { Icon: NoteIcon,    color: "#0D9488", label: "Volume 2 songs",      desc: "18 new tracks now streaming" },
+  { Icon: EyeIcon,     color: "#06B6D4", label: "Episode scripts",     desc: "16 full episodes written" },
+  { Icon: SparkleIcon, color: "#F5A623", label: "Characters expanded", desc: "All 13 cast members profiled" },
+  { Icon: DiamondIcon, color: "#E8601C", label: "Printables coming",   desc: "Activity packs in production" },
 ];
 
 export default function HomeFeatured() {
@@ -66,13 +45,7 @@ export default function HomeFeatured() {
     <section className="py-28 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: "#FBF8F3" }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14"
-        >
+        <FadeIn className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <span
@@ -107,19 +80,15 @@ export default function HomeFeatured() {
           >
             All songs →
           </Link>
-        </motion.div>
+        </FadeIn>
 
         {/* Featured songs — horizontal cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14">
           {FEATURED_SONGS.map((song, i) => (
-            <motion.div
+            <FadeIn
               key={song.title}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.10 }}
-              whileHover={{ y: -6 }}
-              className="relative rounded-3xl overflow-hidden cursor-pointer group transition-shadow duration-300"
+              delay={i * 100}
+              className="relative rounded-3xl overflow-hidden cursor-pointer group transition-all duration-300 hover:-translate-y-1.5"
               style={{
                 background: `linear-gradient(145deg, ${song.characterColor}18 0%, ${song.characterColor}08 100%)`,
                 border: `1.5px solid ${song.characterColor}25`,
@@ -201,16 +170,13 @@ export default function HomeFeatured() {
                   {song.tag}
                 </span>
               </div>
-            </motion.div>
+            </FadeIn>
           ))}
         </div>
 
         {/* What's new strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+        <FadeIn
+          delay={200}
           className="rounded-3xl px-8 py-7"
           style={{
             background: "linear-gradient(135deg, #061E3A 0%, #085041 100%)",
@@ -229,10 +195,10 @@ export default function HomeFeatured() {
               {WHAT_IS_NEW.map((w) => (
                 <div key={w.label} className="flex items-center gap-2.5">
                   <div
-                    className="w-8 h-8 rounded-xl flex items-center justify-center text-sm shrink-0"
+                    className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
                     style={{ backgroundColor: `${w.color}20`, color: w.color }}
                   >
-                    {w.icon}
+                    <w.Icon size={16} />
                   </div>
                   <div>
                     <div className="text-xs font-black leading-tight" style={{ color: "#fff", fontFamily: "var(--font-heading), sans-serif" }}>
@@ -246,7 +212,7 @@ export default function HomeFeatured() {
               ))}
             </div>
           </div>
-        </motion.div>
+        </FadeIn>
       </div>
     </section>
   );

@@ -1,9 +1,7 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import CountUp from "@/components/ui/CountUp";
+import FadeIn from "@/components/ui/FadeIn";
 
 const stats: Array<{
   num?: number;
@@ -40,6 +38,7 @@ export default function InvestorTeaser() {
       ].map((orb, i) => (
         <div
           key={i}
+          aria-hidden="true"
           className="absolute rounded-full animate-glow pointer-events-none"
           style={{
             width: orb.size, height: orb.size,
@@ -51,15 +50,19 @@ export default function InvestorTeaser() {
         />
       ))}
 
-      {/* Floating character silhouettes — desktop only */}
-      <div className="hidden xl:block absolute inset-0 pointer-events-none">
+      {/* Floating character silhouettes — desktop only. CSS `float` keyframe
+          replaces the previous Framer animate={[0,-10,0]} loop. */}
+      <div className="hidden xl:block absolute inset-0 pointer-events-none" aria-hidden="true">
         {TEASE_CHARS.map((char) => (
-          <motion.div
+          <div
             key={char.name}
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: char.delay }}
-            className={`absolute ${char.x} ${char.y} opacity-20`}
-            style={{ width: char.size, height: char.size }}
+            className={`absolute ${char.x} ${char.y} opacity-20 animate-float`}
+            style={{
+              width: char.size,
+              height: char.size,
+              animationDelay: `${char.delay}s`,
+              animationDuration: `${5 + char.delay}s`,
+            }}
           >
             <div className="relative w-full h-full rounded-full overflow-hidden">
               <Image
@@ -70,18 +73,12 @@ export default function InvestorTeaser() {
                 sizes="80px"
               />
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-14"
-        >
+        <FadeIn className="text-center mb-14">
           <p
             className="text-xs font-bold uppercase tracking-[0.2em] mb-6 opacity-50"
             style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}
@@ -92,7 +89,7 @@ export default function InvestorTeaser() {
             className="display-lg font-black mb-6 leading-tight"
             style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff" }}
           >
-            The next great children's brand<br />
+            The next great children&rsquo;s brand<br className="hidden sm:block" />
             <span style={{ color: "#F5A623", textShadow: "0 0 40px rgba(245,166,35,0.5)" }}>
               is being built right now.
             </span>
@@ -101,7 +98,7 @@ export default function InvestorTeaser() {
             className="text-lg leading-relaxed opacity-80 max-w-2xl mx-auto mb-6"
             style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}
           >
-            Moonbug — home of CoComelon and Blippi — was acquired for $3 billion. The next generational brand hasn't been built yet. Shrempies has the IP, the content, and the mission.
+            Moonbug — home of CoComelon and Blippi — was acquired for $3 billion. The next generational brand hasn&rsquo;t been built yet. Shrempies has the IP, the content, and the mission.
           </p>
           <p
             className="text-sm opacity-50 max-w-xl mx-auto"
@@ -109,22 +106,14 @@ export default function InvestorTeaser() {
           >
             36 original songs · 16 episode scripts · 13 original characters · Pre-seed stage
           </p>
-        </motion.div>
+        </FadeIn>
 
         {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-14 max-w-2xl mx-auto"
-        >
+        <FadeIn delay={200} className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-14 max-w-2xl mx-auto">
           {stats.map((s) => (
-            <motion.div
+            <div
               key={s.label}
-              whileHover={{ y: -4 }}
-              className="group rounded-2xl py-6 px-4 text-center glass relative overflow-hidden transition-shadow duration-300"
-              style={{ boxShadow: "0 0 0 0 transparent" }}
+              className="group rounded-2xl py-6 px-4 text-center glass relative overflow-hidden transition-transform duration-300 hover:-translate-y-1"
             >
               {/* Accent glow on hover */}
               <div
@@ -147,37 +136,18 @@ export default function InvestorTeaser() {
               >
                 {s.label}
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </FadeIn>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Link
-            href="/invest"
-            className="shimmer px-9 py-4 rounded-full font-black text-base transition-transform hover:scale-105 active:scale-95"
-            style={{
-              backgroundColor: "#E8601C",
-              color: "#fff",
-              fontFamily: "var(--font-heading), sans-serif",
-              boxShadow: "0 8px 32px rgba(232,96,28,0.45)",
-            }}
-          >
+        <FadeIn delay={300} className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link href="/invest" className="shimmer btn btn-primary btn-lg">
             Request the Investor Deck
           </Link>
-          <Link
-            href="/about"
-            className="px-9 py-4 rounded-full font-black text-base glass transition-transform hover:scale-105 active:scale-95"
-            style={{ color: "#fff", fontFamily: "var(--font-heading), sans-serif" }}
-          >
-            Learn More →
+          <Link href="/about" className="btn btn-ghost btn-lg">
+            Learn more →
           </Link>
-        </motion.div>
+        </FadeIn>
       </div>
     </section>
   );

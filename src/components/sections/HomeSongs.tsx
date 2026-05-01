@@ -1,9 +1,7 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { songs, categoryColors } from "@/lib/data";
 import PlatformLinks from "@/components/ui/PlatformLinks";
+import FadeIn from "@/components/ui/FadeIn";
 
 const preview = songs.slice(0, 6);
 
@@ -32,13 +30,7 @@ export default function HomeSongs() {
 
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14"
-        >
+        <FadeIn className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
           <div>
             <p
               className="text-xs font-bold uppercase tracking-[0.2em] mb-3"
@@ -59,7 +51,7 @@ export default function HomeSongs() {
           >
             Lullabies, dance songs, emotional learning, adventure anthems — music that actually does something.
           </p>
-        </motion.div>
+        </FadeIn>
 
         {/* Song list — editorial style */}
         <div className="flex flex-col">
@@ -67,12 +59,9 @@ export default function HomeSongs() {
             const color = categoryColors[song.category] ?? "#085041";
             const icon = CATEGORY_ICONS[song.category] ?? "◎";
             return (
-              <motion.div
+              <FadeIn
                 key={song.title}
-                initial={{ opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.08 }}
+                delay={i * 80}
                 className="group relative flex items-center gap-5 sm:gap-8 py-5 cursor-default"
                 style={{
                   borderBottom: i < preview.length - 1 ? "1px solid rgba(6,30,58,0.07)" : "none",
@@ -151,19 +140,13 @@ export default function HomeSongs() {
                     <span className="text-white text-xs pl-0.5">▶</span>
                   </div>
                 </div>
-              </motion.div>
+              </FadeIn>
             );
           })}
         </div>
 
         {/* Fade + CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
-        >
+        <FadeIn delay={400} className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
             <p className="text-xs opacity-40 mb-2" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
               + 30 more songs · hundreds in development
@@ -182,7 +165,7 @@ export default function HomeSongs() {
           >
             See all 36 songs →
           </Link>
-        </motion.div>
+        </FadeIn>
       </div>
     </section>
   );

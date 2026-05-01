@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState, type ComponentType, type SVGProps } from "react";
 import { EyeIcon, SparkleIcon, HeartIcon, DiamondIcon, NoteIcon, ShieldIcon } from "@/components/ui/Icons";
+import CardShell from "@/components/ui/CardShell";
 
 type IconCmp = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 
@@ -378,9 +379,8 @@ export default function ParentsPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="rounded-3xl p-9"
-                style={{ backgroundColor: "#FBF8F3", boxShadow: "0 2px 24px rgba(6,30,58,0.06)" }}
               >
+              <CardShell className="p-9 h-full">
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
                   style={{ backgroundColor: `${p.color}15`, color: p.color }}
@@ -393,6 +393,7 @@ export default function ParentsPage() {
                 <p className="text-base leading-relaxed opacity-70" style={{ color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}>
                   {p.body}
                 </p>
+              </CardShell>
               </motion.div>
             ))}
           </div>

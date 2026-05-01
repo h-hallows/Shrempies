@@ -1,9 +1,7 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { printables, printableTypeColors, type PrintableType } from "@/lib/data";
+import FadeIn from "@/components/ui/FadeIn";
 
 const TYPE_ICONS: Record<PrintableType, string> = {
   "Coloring Page":  "✏",
@@ -36,13 +34,7 @@ export default function HomePrintables() {
     <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: "#FBF8F3" }}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12"
-        >
+        <FadeIn className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-3">
               <p
@@ -84,7 +76,7 @@ export default function HomePrintables() {
           >
             Browse all printables →
           </Link>
-        </motion.div>
+        </FadeIn>
 
         {/* Preview grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
@@ -94,14 +86,10 @@ export default function HomePrintables() {
             const hasChar = !!p.character;
             const pattern = PATTERNS[p.id];
             return (
-              <motion.div
+              <FadeIn
                 key={p.id}
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                whileHover={{ y: -6, scale: 1.03 }}
-                className="group rounded-2xl overflow-hidden cursor-default"
+                delay={i * 70}
+                className="group rounded-2xl overflow-hidden cursor-default transition-transform duration-300 hover:-translate-y-1.5 hover:scale-[1.03]"
                 style={{
                   backgroundColor: "white",
                   boxShadow: "0 2px 0 0 rgba(6,30,58,0.06), 0 8px 24px rgba(6,30,58,0.09)",
@@ -204,19 +192,13 @@ export default function HomePrintables() {
                     </p>
                   )}
                 </div>
-              </motion.div>
+              </FadeIn>
             );
           })}
         </div>
 
         {/* Categories strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-wrap gap-3 items-center"
-        >
+        <FadeIn delay={300} className="flex flex-wrap gap-3 items-center">
           {(Object.entries(printableTypeColors) as [PrintableType, string][]).map(([type, color]) => {
             const count = printables.filter((p) => p.type === type).length;
             return (
@@ -243,7 +225,7 @@ export default function HomePrintables() {
           >
             All free · Print at home
           </span>
-        </motion.div>
+        </FadeIn>
       </div>
     </section>
   );

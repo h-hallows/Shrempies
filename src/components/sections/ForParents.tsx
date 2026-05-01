@@ -1,29 +1,31 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
+import type { ComponentType, SVGProps } from "react";
+import FadeIn from "@/components/ui/FadeIn";
+import { HeartIcon, EyeIcon, SparkleIcon, ShieldIcon } from "@/components/ui/Icons";
 
-const PARENT_POINTS = [
+type IconCmp = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
+
+const PARENT_POINTS: { Icon: IconCmp; color: string; title: string; body: string }[] = [
   {
-    icon: "♡",
+    Icon: HeartIcon,
     color: "#E8601C",
     title: "Emotionally honest",
     body: "Every Shrempies song names a real feeling. Grumpy. Scared. \"I don't know what I'm feeling.\" This is the vocabulary that matters most.",
   },
   {
-    icon: "◎",
+    Icon: EyeIcon,
     color: "#0D9488",
     title: "Developmentally grounded",
     body: "From lullabies that regulate to movement songs that address the activity gap — built around how young brains actually grow.",
   },
   {
-    icon: "✦",
+    Icon: SparkleIcon,
     color: "#F5A623",
     title: "Beautiful by design",
     body: "An ocean world full of real wonder. Not frantic. Not noisy. A place you'll actually want to visit together.",
   },
   {
-    icon: "◉",
+    Icon: ShieldIcon,
     color: "#06B6D4",
     title: "Zero ads, zero data",
     body: "Built for babies, not algorithms. No tracking. No advertising to children. No data collected from your child. Period.",
@@ -41,20 +43,14 @@ export default function ForParents() {
   return (
     <section className="relative py-28 px-4 sm:px-6 lg:px-8 overflow-hidden" style={{ backgroundColor: "#061E3A" }}>
       {/* Ambient glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true" style={{
         height: 600,
         background: "radial-gradient(ellipse 80% 60% at 30% 50%, rgba(6,182,212,0.10) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 80% 50%, rgba(8,80,65,0.12) 0%, transparent 60%)",
       }} />
 
       <div className="relative max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16"
-        >
+        <FadeIn className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
           <div>
             <p
               className="text-xs font-bold uppercase tracking-[0.2em] mb-3"
@@ -66,46 +62,35 @@ export default function ForParents() {
               className="display-lg font-black leading-tight"
               style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff" }}
             >
-              Why parents<br />
+              Why parents<br className="hidden sm:block" />
               <span style={{ color: "#FDE68A" }}>choose Shrempies.</span>
             </h2>
           </div>
           <Link
             href="/parents"
-            className="self-start sm:self-auto shrink-0 px-6 py-3 rounded-full font-bold text-sm transition-all hover:scale-105"
-            style={{
-              background: "rgba(255,255,255,0.10)",
-              border: "1.5px solid rgba(255,255,255,0.20)",
-              color: "#fff",
-              fontFamily: "var(--font-body), sans-serif",
-              backdropFilter: "blur(8px)",
-            }}
+            className="self-start sm:self-auto shrink-0 btn btn-ghost"
           >
             Parent guide →
           </Link>
-        </motion.div>
+        </FadeIn>
 
         {/* Four pillars grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
           {PARENT_POINTS.map((p, i) => (
-            <motion.div
+            <FadeIn
               key={p.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{ y: -6 }}
-              className="group rounded-3xl p-8 transition-shadow duration-300"
+              delay={i * 100}
+              className="group rounded-3xl p-8 transition-transform duration-300 hover:-translate-y-1.5"
               style={{
                 background: "rgba(255,255,255,0.05)",
                 border: "1px solid rgba(255,255,255,0.08)",
               }}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-5 transition-all duration-300 group-hover:scale-110"
-                style={{ backgroundColor: `${p.color}25`, color: p.color, boxShadow: `0 0 0 0 ${p.color}00` }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110"
+                style={{ backgroundColor: `${p.color}25`, color: p.color }}
               >
-                {p.icon}
+                <p.Icon size={22} />
               </div>
               <h3
                 className="text-lg font-black mb-3"
@@ -119,16 +104,13 @@ export default function ForParents() {
               >
                 {p.body}
               </p>
-            </motion.div>
+            </FadeIn>
           ))}
         </div>
 
         {/* Age guide strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+        <FadeIn
+          delay={200}
           className="rounded-3xl p-8 sm:p-10"
           style={{
             background: "rgba(255,255,255,0.04)",
@@ -146,8 +128,7 @@ export default function ForParents() {
             </div>
             <Link
               href="/parents"
-              className="shrink-0 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
-              style={{ backgroundColor: "#F5A623", color: "#061E3A", fontFamily: "var(--font-body), sans-serif" }}
+              className="shrink-0 btn btn-amber btn-sm"
             >
               Full parent guide →
             </Link>
@@ -155,12 +136,9 @@ export default function ForParents() {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {AGE_TAGS.map((tag, i) => (
-              <motion.div
+              <FadeIn
                 key={tag.label}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+                delay={300 + i * 80}
                 className="rounded-2xl p-5"
                 style={{ backgroundColor: `${tag.color}15`, border: `1.5px solid ${tag.color}30` }}
               >
@@ -170,10 +148,10 @@ export default function ForParents() {
                 <div className="text-xs opacity-70" style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}>
                   {tag.desc}
                 </div>
-              </motion.div>
+              </FadeIn>
             ))}
           </div>
-        </motion.div>
+        </FadeIn>
       </div>
     </section>
   );

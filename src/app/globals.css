@@ -362,3 +362,117 @@ input:focus, textarea:focus {
    wrappers that set initial opacity to 0 inline. We rely on CSS coming
    before the JS runtime. */
 [data-no-flash] { opacity: 1 !important; }
+
+/* ── Button hierarchy ───────────────────────────────────
+   Centralised button system. Use one of these classes per CTA so the
+   rules — coral → action, amber → highlight, glass → secondary on dark,
+   teal → secondary on light, text-link → tertiary — stay consistent. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 800;
+  border-radius: 9999px;
+  padding: 0.875rem 1.75rem;
+  font-size: 0.875rem;
+  line-height: 1;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+  white-space: nowrap;
+}
+.btn:hover { transform: scale(1.04); }
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
+
+.btn-primary {
+  background: #E8601C;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(232, 96, 28, 0.40);
+}
+.btn-primary:hover { box-shadow: 0 12px 40px rgba(232, 96, 28, 0.55); }
+
+.btn-amber {
+  background: #F5A623;
+  color: #042C53;
+  box-shadow: 0 6px 24px rgba(245, 166, 35, 0.40);
+}
+.btn-amber:hover { box-shadow: 0 10px 32px rgba(245, 166, 35, 0.55); }
+
+.btn-secondary {
+  background: #F0F9F4;
+  color: #085041;
+  border: 1.5px solid #085041;
+}
+.btn-secondary:hover { background: #D6F5EA; }
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.30);
+  backdrop-filter: blur(12px);
+}
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.22); }
+
+.btn-link {
+  background: transparent;
+  color: #061E3A;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+}
+.btn-link:hover { color: #085041; transform: none; }
+
+/* Size modifiers */
+.btn-sm  { padding: 0.625rem 1.125rem; font-size: 0.8125rem; }
+.btn-lg  { padding: 1rem 2.25rem;       font-size: 1rem; }
+
+/* ── Fade-up viewport animation (replaces simple framer motion fades) ── */
+@keyframes fade-up-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up-target {
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: opacity, transform;
+}
+.fade-up-target.in-view {
+  animation: fade-up-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-up-target,
+  .fade-up-target.in-view {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* ── Print stylesheet ─────────────────────────────────── */
+@media print {
+  /* Hide chrome and decoration */
+  header,
+  footer,
+  nav,
+  [aria-hidden="true"],
+  video,
+  .glass,
+  .shimmer::after,
+  .animate-track,
+  .animate-bubble,
+  .animate-glow,
+  .animate-sparkle {
+    display: none !important;
+  }
+  body { background: #fff !important; color: #000 !important; }
+  section { break-inside: avoid; padding: 12pt 0 !important; }
+  a { color: inherit; text-decoration: underline; }
+  /* Surface URLs after links so paper readers can find them */
+  a[href^="http"]::after,
+  a[href^="/"]::after { content: " (" attr(href) ")"; font-size: 0.8em; opacity: 0.7; }
+  img { max-width: 100%; page-break-inside: avoid; }
+  h1, h2, h3 { page-break-after: avoid; }
+}

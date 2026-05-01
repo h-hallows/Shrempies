@@ -1,6 +1,5 @@
-"use client";
 
-import { motion } from "framer-motion";
+import FadeIn from "@/components/ui/FadeIn";
 import Link from "next/link";
 import CountUp from "@/components/ui/CountUp";
 
@@ -94,13 +93,7 @@ export default function WhyShrempies() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <FadeIn className="text-center mb-16">
           <p
             className="text-xs font-bold uppercase tracking-[0.2em] mb-4"
             style={{ color: "rgba(186,230,253,0.80)", fontFamily: "var(--font-body), sans-serif" }}
@@ -118,19 +111,15 @@ export default function WhyShrempies() {
             Built different,<br />
             <span style={{ color: "#FDE68A" }}>on purpose.</span>
           </h2>
-        </motion.div>
+        </FadeIn>
 
         {/* Three pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
           {props.map((p, i) => (
-            <motion.div
+            <FadeIn
               key={p.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              whileHover={{ y: -4 }}
-              className="rounded-3xl p-9 flex flex-col gap-5"
+              delay={i * 120}
+              className="rounded-3xl p-9 flex flex-col gap-5 transition-transform duration-300 hover:-translate-y-1"
               style={{
                 background: "rgba(255,255,255,0.12)",
                 border: "1px solid rgba(255,255,255,0.18)",
@@ -155,16 +144,13 @@ export default function WhyShrempies() {
               >
                 {p.body}
               </p>
-            </motion.div>
+            </FadeIn>
           ))}
         </div>
 
         {/* Numbers strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+        <FadeIn
+          delay={200}
           className="rounded-3xl p-8 sm:p-10 mb-12"
           style={{
             background: "rgba(0,0,0,0.18)",
@@ -173,12 +159,9 @@ export default function WhyShrempies() {
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
             {NUMBERS.map((n, i) => (
-              <motion.div
+              <FadeIn
                 key={n.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+                delay={300 + i * 80}
               >
                 <div
                   className="text-4xl sm:text-5xl font-black mb-1"
@@ -196,19 +179,13 @@ export default function WhyShrempies() {
                 <div className="text-xs opacity-50" style={{ color: "#D6F5EA", fontFamily: "var(--font-body), sans-serif" }}>
                   {n.sub}
                 </div>
-              </motion.div>
+              </FadeIn>
             ))}
           </div>
-        </motion.div>
+        </FadeIn>
 
         {/* Quote */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center"
-        >
+        <FadeIn delay={300} className="text-center">
           <p
             className="text-2xl sm:text-3xl font-black leading-snug max-w-3xl mx-auto mb-8"
             style={{ fontFamily: "var(--font-heading), sans-serif", color: "#fff" }}
@@ -243,7 +220,7 @@ export default function WhyShrempies() {
               Our story →
             </Link>
           </div>
-        </motion.div>
+        </FadeIn>
       </div>
 
       {/* Wave bottom */}

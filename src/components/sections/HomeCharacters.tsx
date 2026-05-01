@@ -1,9 +1,7 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { characters } from "@/lib/data";
+import FadeIn from "@/components/ui/FadeIn";
 
 // Size variants for organic bubble layout
 const SIZES = [100, 140, 100, 120, 100, 140, 120, 100, 140, 100, 120, 100, 140];
@@ -25,12 +23,7 @@ export default function HomeCharacters() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.5 }}
-          >
+          <FadeIn>
             <p
               className="text-xs font-bold uppercase tracking-[0.2em] mb-3"
               style={{ color: "#085041", fontFamily: "var(--font-body), sans-serif" }}
@@ -41,9 +34,9 @@ export default function HomeCharacters() {
               className="display-lg font-black leading-none"
               style={{ fontFamily: "var(--font-heading), sans-serif", color: "#061E3A" }}
             >
-              13 original<br />characters
+              13 original<br className="hidden sm:block" />characters
             </h2>
-          </motion.div>
+          </FadeIn>
           <Link
             href="/characters"
             className="self-start sm:self-auto shrink-0 px-6 py-3 rounded-full font-bold text-sm transition-all hover:scale-105"
@@ -71,14 +64,10 @@ export default function HomeCharacters() {
                 const delay = DELAYS[charIdx];
                 const globalI = rowIdx * 5 + i;
                 return (
-                  <motion.div
+                  <FadeIn
                     key={char.name}
-                    initial={{ opacity: 0, scale: 0.7, y: 20 }}
-                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.55, delay: globalI * 0.07 }}
-                    whileHover={{ scale: 1.14, zIndex: 20 }}
-                    className="relative group cursor-pointer shrink-0"
+                    delay={globalI * 70}
+                    className="relative group cursor-pointer shrink-0 transition-transform duration-300 hover:scale-[1.14] hover:z-20"
                     style={{
                       width: size,
                       height: size,
@@ -147,7 +136,7 @@ export default function HomeCharacters() {
                         boxShadow: `0 0 40px 12px ${char.color}50, 0 0 80px 20px ${char.color}25`,
                       }}
                     />
-                  </motion.div>
+                  </FadeIn>
                 );
               })}
             </div>
@@ -157,12 +146,9 @@ export default function HomeCharacters() {
         {/* Mobile: horizontal scroll strip */}
         <div className="sm:hidden flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none">
           {all.map((char, i) => (
-            <motion.div
+            <FadeIn
               key={char.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
+              delay={i * 50}
               className="relative shrink-0 snap-start"
               style={{ width: 96 }}
             >
@@ -195,18 +181,12 @@ export default function HomeCharacters() {
                   {char.name}
                 </p>
               </Link>
-            </motion.div>
+            </FadeIn>
           ))}
         </div>
 
         {/* Bottom CTA pill */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="hidden sm:flex justify-center mt-12"
-        >
+        <FadeIn delay={500} className="hidden sm:flex justify-center mt-12">
           <Link
             href="/characters"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm transition-all hover:scale-105"
@@ -220,7 +200,7 @@ export default function HomeCharacters() {
             <span>Explore all 13 characters</span>
             <span>→</span>
           </Link>
-        </motion.div>
+        </FadeIn>
       </div>
     </section>
   );
